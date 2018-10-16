@@ -25,21 +25,20 @@ import java.util.*
 
 class CameraActivity(context: Context, frame : FrameLayout) {
 
-    private var mCamera: Camera? = null       // объект Camera
-    private lateinit var mPreview: SurfaceView//
+    private var mCamera: Camera? = null        // объект Camera
+    private lateinit var mPreview: SurfaceView // preview
 
     private var mContext : Context = context  // MainActivity
-    private var mFrame : FrameLayout = frame
+    private var mFrame : FrameLayout = frame  // frame для отображение вида с камеры
 
-    private var mCameraType : CAMERA_TYPE = CAMERA_TYPE.BACK
+    private var mCameraType : CAMERA_TYPE = CAMERA_TYPE.BACK  // Фронтальная или задняя камера
     private var mCameraIdBack  : Int = 0
-    private var mCameraIdFront : Int = 0
+    private var mCameraIdFront : Int = 0    // Id фронтальной и задней камера
 
     private var mPictureFile : File? = null   // Файл сохранения снимка
 
-
     init{
-        setCamerasId()               // Получение Id фронтальной и задней камер
+        setCamerasId()              // Получение Id фронтальной и задней камер
         initCamera(mCameraIdBack)   // Инициализация задней камеры
     }
 
@@ -52,12 +51,14 @@ class CameraActivity(context: Context, frame : FrameLayout) {
         }
     }
 
+    // Инициализация камеры
     private fun initCamera(id : Int){
         mCamera = getCameraInstance(id)
         mPreview = CameraPreview(mContext, mCamera!!, mCameraType!!)
         mFrame.addView(mPreview)
     }
 
+    // Получние Id камер
     private fun setCamerasId(){
         val numberOfCameras = Camera.getNumberOfCameras()
         for (i in 0 until numberOfCameras) {
@@ -70,6 +71,7 @@ class CameraActivity(context: Context, frame : FrameLayout) {
         }
     }
 
+    // Переключение фронтальной и задней камеры
     fun changeCamera(cameraId : CAMERA_TYPE){
         mCameraType = cameraId
         val newId : Int = when(mCameraType){
@@ -77,10 +79,11 @@ class CameraActivity(context: Context, frame : FrameLayout) {
             CAMERA_TYPE.FRONT -> mCameraIdFront
         }
 
+        // Остановка текущей камеры
         stopCamera()
 
+        // Создание новой камеры
         mCamera = getCameraInstance(newId)
-
         mPreview = CameraPreview(mContext, mCamera!!, mCameraType!!)
 
         mFrame.removeAllViews()
@@ -88,6 +91,7 @@ class CameraActivity(context: Context, frame : FrameLayout) {
 
     }
 
+    // Переключение режима работы вспышки
     fun turnFlash(flash : FLASH){
         if (mCameraType == CAMERA_TYPE.BACK){
             val parameters = mCamera?.parameters
@@ -106,6 +110,7 @@ class CameraActivity(context: Context, frame : FrameLayout) {
         }
     }
 
+    // Сделать снимок
     fun takePhoto() {
         try {
             mCamera?.takePicture(null, null, mPicture)
@@ -114,12 +119,13 @@ class CameraActivity(context: Context, frame : FrameLayout) {
         }
         mPictureFile = null
 
+        // Задержка
         Handler().postDelayed({
             restartPreview()
         }, 500)
     }
 
-
+    // Перезапуск preview после снимка
     private fun restartPreview(){
         try {
             mCamera?.startPreview()
@@ -128,12 +134,14 @@ class CameraActivity(context: Context, frame : FrameLayout) {
         }
     }
 
+    // Остановка текущей камеры
     fun stopCamera(){
         mCamera?.stopPreview()
         mCamera?.release()
         mCamera = null
     }
 
+    // Звук снимка
     private fun callShutterSound(){
         val audioManager = mContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         val volume = audioManager.getStreamVolume(AudioManager.STREAM_SYSTEM)
@@ -143,6 +151,7 @@ class CameraActivity(context: Context, frame : FrameLayout) {
         }
     }
 
+    // Добавление снимка в галерею
     private fun addImageToGallery(filePath: String, context: Context) {
         val values = ContentValues()
         values.put(Images.Media.DATE_TAKEN, System.currentTimeMillis())
@@ -150,7 +159,6 @@ class CameraActivity(context: Context, frame : FrameLayout) {
         values.put(MediaStore.MediaColumns.DATA, filePath)
         context.contentResolver.insert(Images.Media.EXTERNAL_CONTENT_URI, values)
     }
-
 
 
     private val mPicture = Camera.PictureCallback { data, _ ->
@@ -171,7 +179,6 @@ class CameraActivity(context: Context, frame : FrameLayout) {
             fos.write(data)
             fos.close()
 
-
             addImageToGallery(mPictureFile!!.path, mContext)
             callShutterSound()
 
@@ -183,16 +190,15 @@ class CameraActivity(context: Context, frame : FrameLayout) {
     }
 
 
+    // Создание пустого файла
     private fun getOutputMediaFile(): File? {
         val mediaStorageDir = File(Environment.getExternalStoragePublicDirectory(
                 Environment.DIRECTORY_PICTURES), "MyCameraApp")
         if (!mediaStorageDir.exists()) {
             if (!mediaStorageDir.mkdirs()) {
-                //Log.d("MyCameraApp", "failed to create directory")
                 return null
             }
         }
-        // Create a media file name
         val timeStamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
 
         return File(mediaStorageDir.path + File.separator +

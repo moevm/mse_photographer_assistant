@@ -15,6 +15,7 @@ class SettingsActivity : AppCompatActivity() {
 
     }
 
+    // Возврат по кнопке домой
     override fun onBackPressed() {
         startActivity(Intent(this, MainActivity::class.java))
         finish()

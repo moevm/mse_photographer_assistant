@@ -38,8 +38,8 @@ class CameraPreview(
         }
     }
 
+    // Установка параметров
     private fun setParameters(){
-
         val parameters = mCamera?.parameters
         parameters?.jpegQuality = 80
         if (mCameraId == CAMERA_TYPE.BACK)
@@ -67,7 +67,6 @@ class CameraPreview(
             Toast.makeText(context, "Can't set parametrs", Toast.LENGTH_SHORT).show()
         }
     }
-
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {
         mCamera.release()

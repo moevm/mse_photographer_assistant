@@ -28,9 +28,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-
+        // Запрос разрешения на камеру
         handlePermission(Manifest.permission.CAMERA) {
             if (it) {
+                // Запрос разрешения на запись в память
                 handlePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) {
                     hideBars()
                     initButtons()
@@ -42,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         // TODO rotation problem
     }
 
-
+    //Обработка разрешений
     private fun hasPermission(permId: String) = ContextCompat.checkSelfPermission(this, permId) == PackageManager.PERMISSION_GRANTED;
 
     private fun handlePermission(permissionId: String, callback: (granted: Boolean) -> Unit) {
@@ -64,7 +65,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    //  Иницализация камеры, созание объекта класса CameraActivity
+    //  Иницализация камеры, создание объекта класса CameraActivity
     private fun initCamera(){
         mCameraActivity = CameraActivity(this, camera_preview)
     }
@@ -122,7 +123,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-
     // Переход в настройки
     private fun launchSettings(){
         val intent = Intent(applicationContext, SettingsActivity::class.java)
@@ -130,16 +130,15 @@ class MainActivity : AppCompatActivity() {
         mCameraActivity?.stopCamera()
     }
 
-    // Нажатия кнопки завтора камеры
+    // Нажатие кнопки завтора камеры
     private fun launchShutter(){
         mCameraActivity?.takePhoto()
     }
 
-    // Нажатия кнопки выбора камеры
+    // Нажатие кнопки выбора камеры
     private fun launchGrid(){
         Toast.makeText(this, "There will be a grid selection",
                 Toast.LENGTH_SHORT).show()
     }
-
 
 }
