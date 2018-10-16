@@ -2,6 +2,9 @@ package com.leti.progin6304.cameraphotographerassistant
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.content.Intent
+
+
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -10,5 +13,10 @@ class SettingsActivity : AppCompatActivity() {
         setContentView(R.layout.activity_settings)
         title = "Settings"
 
+    }
+
+    override fun onBackPressed() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 }
