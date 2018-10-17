@@ -28,10 +28,15 @@ class CameraActivity(context: Context, frame : FrameLayout) {
     private var mCamera: Camera? = null        // объект Camera
     private lateinit var mPreview: SurfaceView // preview
 
+    private val DELAY_PREVIEW = 500L
+    private val DELAY_FLASH   = 1000L
+
     private var mContext : Context = context  // MainActivity
     private var mFrame : FrameLayout = frame  // frame для отображение вида с камеры
 
     private var mCameraType : CAMERA_TYPE = CAMERA_TYPE.BACK  // Фронтальная или задняя камера
+    private var mFlashType : FLASH = FLASH.FLASH_OFF          // Состояние всыпшки
+
     private var mCameraIdBack  : Int = 0
     private var mCameraIdFront : Int = 0    // Id фронтальной и задней камера
 
@@ -84,7 +89,7 @@ class CameraActivity(context: Context, frame : FrameLayout) {
 
         // Создание новой камеры
         mCamera = getCameraInstance(newId)
-        mPreview = CameraPreview(mContext, mCamera!!, mCameraType!!)
+        mPreview = CameraPreview(mContext, mCamera!!, mCameraType)
 
         mFrame.removeAllViews()
         mFrame.addView(mPreview)
@@ -94,8 +99,9 @@ class CameraActivity(context: Context, frame : FrameLayout) {
     // Переключение режима работы вспышки
     fun turnFlash(flash : FLASH){
         if (mCameraType == CAMERA_TYPE.BACK){
+            mFlashType = flash
             val parameters = mCamera?.parameters
-            when(flash){
+            when(mFlashType){
                 FLASH.FLASH_ON   ->  parameters?.flashMode = Camera.Parameters.FLASH_MODE_ON
                 FLASH.FLASH_OFF  ->  parameters?.flashMode = Camera.Parameters.FLASH_MODE_OFF
                 FLASH.FLASH_AUTO ->  parameters?.flashMode = Camera.Parameters.FLASH_MODE_AUTO
@@ -119,10 +125,18 @@ class CameraActivity(context: Context, frame : FrameLayout) {
         }
         mPictureFile = null
 
-        // Задержка
+        // Задержка в зависимости от состояния вспышки
+        if (mFlashType == FLASH.FLASH_ON || mFlashType == FLASH.FLASH_AUTO)
+            delayPreview(DELAY_PREVIEW + DELAY_FLASH)
+        else
+            delayPreview(DELAY_PREVIEW)
+    }
+
+    // Функция задержки и рестарта Preview
+    private fun delayPreview(DELAY : Long){
         Handler().postDelayed({
             restartPreview()
-        }, 500)
+        }, DELAY)
     }
 
     // Перезапуск preview после снимка
@@ -146,7 +160,8 @@ class CameraActivity(context: Context, frame : FrameLayout) {
         val audioManager = mContext.getSystemService(Context.AUDIO_SERVICE) as AudioManager
         val volume = audioManager.getStreamVolume(AudioManager.STREAM_SYSTEM)
         if (volume != 0) {
-            val mp = MediaPlayer.create(mContext, Uri.parse("file:///system/media/audio/ui/camera_click.ogg"))
+            val mp = MediaPlayer.create(mContext,
+                    Uri.parse("file:///system/media/audio/ui/camera_click.ogg"))
             mp?.start()
         }
     }
