@@ -28,8 +28,8 @@ class CameraActivity(context: Context, frame : FrameLayout) {
     private var mCamera: Camera? = null        // объект Camera
     private lateinit var mPreview: SurfaceView // preview
 
-    private val DELAY_PREVIEW = 500L
-    private val DELAY_FLASH   = 1000L
+    private val DELAY_PREVIEW = 500L         // Задержка перезапуска Preview
+    private val DELAY_FLASH   = 1000L        // в обычном состоянии и со вспышкой
 
     private var mContext : Context = context  // MainActivity
     private var mFrame : FrameLayout = frame  // frame для отображение вида с камеры
@@ -182,6 +182,7 @@ class CameraActivity(context: Context, frame : FrameLayout) {
         }
         try {
 
+			// Запись данных в файл
             Toast.makeText(mContext, "Success", Toast.LENGTH_SHORT).show()
             val fos = FileOutputStream(mPictureFile)
             //val display = (mContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay

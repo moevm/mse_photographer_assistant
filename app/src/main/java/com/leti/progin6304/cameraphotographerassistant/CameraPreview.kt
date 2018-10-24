@@ -45,13 +45,15 @@ class CameraPreview(
         if (mCameraId == CAMERA_TYPE.BACK)
             parameters?.focusMode = Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE
 
+		//Поворот View
         val display = (mContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
         if (display.rotation == Surface.ROTATION_0) {
             mCamera.setDisplayOrientation(90)
         } else if (display.rotation == Surface.ROTATION_270) {
             mCamera.setDisplayOrientation(180)
         }
-
+		
+		//Вычисление наибольшего разрешения
         val sizes = parameters!!.supportedPictureSizes
         var size: Camera.Size = sizes!![0]
         for (i in sizes.indices) {
@@ -62,7 +64,7 @@ class CameraPreview(
 
         parameters.setPictureSize(size.width, size.height)
         try {
-            mCamera.parameters = parameters
+            mCamera.parameters = parameters          //Установка новых параметров
         } catch (e :Exception){
             Toast.makeText(context, "Can't set parametrs", Toast.LENGTH_SHORT).show()
         }
