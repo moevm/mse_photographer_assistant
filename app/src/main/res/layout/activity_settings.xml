@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:id="@+id/settings_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp"
+        tools:ignore="MissingConstraints">
+
+    <LinearLayout
+        android:id="@+id/settings_holder"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="16dp">
+
+            <TextView
+                android:id="@+id/test_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:paddingLeft="8dp"
+                android:paddingStart="8dp"
+                android:text="There will be settings" />
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/shutter_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#C0C0C0"
+            android:importantForAccessibility="no"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="16dp">
+
+            <TextView
+                android:id="@+id/test_text_for_switch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:paddingLeft="8dp"
+                android:paddingStart="8dp"
+                android:text="There will be switch" />
+
+            <Switch
+                android:id="@+id/test_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:gravity="left"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>
