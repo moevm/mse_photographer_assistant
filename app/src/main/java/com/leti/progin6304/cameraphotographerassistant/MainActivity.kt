@@ -37,9 +37,9 @@ class MainActivity : AppCompatActivity() {
                 // Запрос разрешения на запись в память
                 handlePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) {
                     hideBars()
-                    setPref()
                     initButtons()
                     initCamera()
+                    setPref()
                 }
             }
         }
@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
 
         // TODO implement grid
         if (pref.getInt("isSwitchGridRectangle3x3", 0) == 1){
-            //showGrid3x3()
+            mCameraActivity?.setGrid()
             return
         }
         if (pref.getInt("isSwitchGridFib", 0) == 1){
@@ -116,7 +116,6 @@ class MainActivity : AppCompatActivity() {
     private fun initButtons(){
         settings.setOnClickListener { launchSettings() }
         shutter.setOnClickListener{ launchShutter() }
-        grid.setOnClickListener{ launchGrid() }
         switchCamera.setOnClickListener{ changeCamera()}
         flash.setOnClickListener{ turnFlash()}
     }
@@ -166,10 +165,4 @@ class MainActivity : AppCompatActivity() {
     private fun launchShutter(){
         mCameraActivity?.takePhoto()
     }
-
-    // Нажатие кнопки выбора сетки
-    private fun launchGrid(){
-        mCameraActivity?.setGrid()
-    }
-
 }

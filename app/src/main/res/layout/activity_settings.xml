@@ -36,7 +36,8 @@
                 android:clickable="false"
                 android:paddingStart="8dp"
                 android:paddingLeft="8dp"
-                android:text="Developed by @kovinevmv" />
+                android:text="Developed by @kovinevmv, Jools"
+                tools:ignore="NotSibling" />
         </RelativeLayout>
 
         <View
