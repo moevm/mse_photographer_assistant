@@ -31,10 +31,12 @@
                 android:id="@+id/test_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/test_textview"
+                android:layout_marginTop="0dp"
                 android:clickable="false"
-                android:paddingLeft="8dp"
                 android:paddingStart="8dp"
-                android:text="There will be settings" />
+                android:paddingLeft="8dp"
+                android:text="Developed by @kovinevmv" />
         </RelativeLayout>
 
         <View
@@ -53,16 +55,101 @@
             android:paddingTop="16dp">
 
             <TextView
-                android:id="@+id/test_text_for_switch"
+                android:id="@+id/textForSwitchGridRectangle3x3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="false"
-                android:paddingLeft="8dp"
                 android:paddingStart="8dp"
-                android:text="There will be switch" />
+                android:paddingLeft="8dp"
+                android:text="Сетка 3х3" />
 
             <Switch
-                android:id="@+id/test_switch"
+                android:id="@+id/switchGridRectangle3x3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:gravity="left"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="16dp">
+
+            <TextView
+                android:id="@+id/textForSwitchFib"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:paddingStart="8dp"
+                android:paddingLeft="8dp"
+                android:text="Спираль Фибоначчи" />
+
+            <Switch
+                android:id="@+id/switchGridFib"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:gravity="left"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+
+        <View
+            android:id="@+id/shutter_divider2"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#C0C0C0"
+            android:importantForAccessibility="no"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="16dp">
+
+            <TextView
+                android:id="@+id/textForSwitchHorizLine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:paddingStart="8dp"
+                android:paddingLeft="8dp"
+                android:text="Линия горизонта" />
+
+            <Switch
+                android:id="@+id/switchHorizLine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:gravity="left"
+                android:layout_centerVertical="true" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="16dp">
+
+            <TextView
+                android:id="@+id/textForSwitchVertLine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:paddingStart="8dp"
+                android:paddingLeft="8dp"
+                android:text="Линия вертикали" />
+
+            <Switch
+                android:id="@+id/switchVertLine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"

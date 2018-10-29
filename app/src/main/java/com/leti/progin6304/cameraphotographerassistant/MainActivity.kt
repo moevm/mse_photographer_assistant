@@ -2,7 +2,9 @@ package com.leti.progin6304.cameraphotographerassistant
 
 
 import android.Manifest
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
@@ -23,6 +25,7 @@ class MainActivity : AppCompatActivity() {
     private var actionOnPermission: ((granted: Boolean) -> Unit)? = null
     private var isAskingPermissions = false
 
+    private lateinit var pref : SharedPreferences           // Настройки сеток
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +37,7 @@ class MainActivity : AppCompatActivity() {
                 // Запрос разрешения на запись в память
                 handlePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) {
                     hideBars()
+                    setPref()
                     initButtons()
                     initCamera()
                 }
@@ -41,6 +45,34 @@ class MainActivity : AppCompatActivity() {
         }
 
         // TODO rotation problem
+    }
+
+    // Получение информации со страницы настроек и инициализация сеток
+    private fun setPref(){
+        pref = getSharedPreferences("MY_SETTINGS", Context.MODE_PRIVATE)
+
+        // Debug status switches
+        //Toast.makeText(this, "3x3: "  + pref.getInt("isSwitchGridRectangle3x3", 0).toString(), Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this, "Fib: "  + pref.getInt("isSwitchGridFib", 0).toString(), Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this, "Horiz: " + pref.getInt("isSwitchHorizLine", 0).toString(), Toast.LENGTH_SHORT).show()
+        //Toast.makeText(this, "Vert: "  + pref.getInt("isSwitchVertLine", 0).toString(), Toast.LENGTH_SHORT).show()
+
+        // TODO implement grid
+        if (pref.getInt("isSwitchGridRectangle3x3", 0) == 1){
+            //showGrid3x3()
+            return
+        }
+        if (pref.getInt("isSwitchGridFib", 0) == 1){
+            //showGridFib()
+            return
+        }
+
+        if (pref.getInt("isSwitchHorizLine", 0) == 1){
+            //showHorizLine()
+        }
+        if (pref.getInt("isSwitchVertLine", 0) == 1){
+            //showVertLine()
+        }
     }
 
     //Обработка разрешений
