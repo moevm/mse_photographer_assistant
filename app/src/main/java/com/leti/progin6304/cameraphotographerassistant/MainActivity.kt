@@ -167,10 +167,9 @@ class MainActivity : AppCompatActivity() {
         mCameraActivity?.takePhoto()
     }
 
-    // Нажатие кнопки выбора камеры
+    // Нажатие кнопки выбора сетки
     private fun launchGrid(){
-        Toast.makeText(this, "There will be a grid selection",
-                Toast.LENGTH_SHORT).show()
+        mCameraActivity?.setGrid()
     }
 
 }

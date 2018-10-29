@@ -220,4 +220,11 @@ class CameraActivity(context: Context, frame : FrameLayout) {
         return File(mediaStorageDir.path + File.separator +
                 "IMG_" + timeStamp + ".jpg")
     }
+
+    //Создание сетки
+    public fun setGrid(){
+        val grid = Grid(mContext)
+        mFrame.addView(grid)
+        restartPreview()
+    }
 }
