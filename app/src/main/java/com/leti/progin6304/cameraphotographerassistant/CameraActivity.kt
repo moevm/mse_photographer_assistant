@@ -42,6 +42,7 @@ class CameraActivity(context: Context, frame : FrameLayout) {
 
     private var mPictureFile : File? = null   // Файл сохранения снимка
 
+
     init{
         setCamerasId()              // Получение Id фронтальной и задней камер
         initCamera(mCameraIdBack)   // Инициализация задней камеры

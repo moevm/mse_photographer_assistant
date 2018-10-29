@@ -36,10 +36,12 @@ class MainActivity : AppCompatActivity() {
             if (it) {
                 // Запрос разрешения на запись в память
                 handlePermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) {
-                    hideBars()
-                    setPref()
-                    initButtons()
-                    initCamera()
+                    if (it){
+                        hideBars()
+                        setPref()
+                        initButtons()
+                        initCamera()
+                    }
                 }
             }
         }
