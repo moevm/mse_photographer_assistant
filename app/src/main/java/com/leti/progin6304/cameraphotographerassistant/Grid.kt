@@ -106,7 +106,7 @@ class Grid(context: Context, private val grids : MutableMap<GRID_TYPE, Boolean>,
             }
 
             if (grid == GRID_TYPE.GRIDCENTER && isDraw){   // Отрисовка центра экрана
-                val size = width * 0.05F
+                val size = (sqrt((width*height).toDouble()) * 0.05F).toFloat()
 
                 val centerX = width / 2F
                 val centerY = height / 2F
