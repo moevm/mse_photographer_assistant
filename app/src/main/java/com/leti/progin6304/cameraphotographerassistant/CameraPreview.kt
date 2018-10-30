@@ -68,6 +68,8 @@ class CameraPreview(
         val display = (mCameraActivity.mContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
         if (display.rotation == Surface.ROTATION_0) {
             mCamera.setDisplayOrientation(90)
+        } else if (display.rotation == Surface.ROTATION_90) {
+            mCamera.setDisplayOrientation(0)
         } else if (display.rotation == Surface.ROTATION_270) {
             mCamera.setDisplayOrientation(180)
         }
