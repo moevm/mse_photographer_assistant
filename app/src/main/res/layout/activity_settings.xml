@@ -158,6 +158,34 @@
                 android:layout_centerVertical="true" />
         </RelativeLayout>
 
+        <View
+            android:id="@+id/shutter_divider2"
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="#C0C0C0"
+            android:importantForAccessibility="no"/>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="16dp"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingTop="16dp">
+
+            <TextView
+                android:id="@+id/changeColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="0dp"
+                android:clickable="false"
+                android:paddingStart="8dp"
+                android:paddingLeft="8dp"
+                android:text="Изменить цвет сетки"
+                tools:ignore="NotSibling" />
+        </RelativeLayout>
+
+
+
 
 
     </LinearLayout>

@@ -1,5 +1,6 @@
 package com.leti.progin6304.cameraphotographerassistant
 
+import android.app.AlertDialog
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -14,6 +15,7 @@ fun Int.toBoolean() = this != 0
 class SettingsActivity : AppCompatActivity() {
 
     private lateinit var pref : SharedPreferences
+    private lateinit var builder : AlertDialog.Builder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,6 +24,29 @@ class SettingsActivity : AppCompatActivity() {
 
         setSwitch()
         initSwitch()
+        initColor()
+    }
+
+    private fun initColor(){
+        builder = AlertDialog.Builder(this)
+        builder.setTitle("Выберите цвет линий сетки")
+
+        val colors = arrayOf("Белый", "Серый", "Черный", "Произвольный")
+        val editor = pref.edit()
+        builder.setItems(colors) { _, which ->
+            when (which) {
+                0 -> {editor.putInt("colorGrid", 0); editor.apply();}
+                1 -> {editor.putInt("colorGrid", 1); editor.apply();}
+                2 -> {editor.putInt("colorGrid", 2); editor.apply();}
+                3 -> {editor.putInt("colorGrid", 3); editor.apply();}
+            }
+        }
+
+        changeColor.setOnClickListener{
+            val dialog = builder.create()
+            dialog.show()
+        }
+
     }
 
     // Установка положений переключателей на старте
@@ -53,7 +78,6 @@ class SettingsActivity : AppCompatActivity() {
     // Обновление информации отображения сетки 3х3
     private fun launchSwitchGrid3x3(){
         if (switchGridRectangle3x3.isChecked){
-            switchGridFib.isChecked = false
             switchHorizLine.isChecked = false
             switchVertLine.isChecked = false
         }
@@ -63,7 +87,6 @@ class SettingsActivity : AppCompatActivity() {
     // Обновление информации отображения сетки Фибоначчи
     private fun launchSwitchGridFib(){
         if (switchGridFib.isChecked){
-            switchGridRectangle3x3.isChecked = false
             switchHorizLine.isChecked = false
             switchVertLine.isChecked = false
         }

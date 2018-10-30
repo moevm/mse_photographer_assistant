@@ -59,12 +59,10 @@ class MainActivity : AppCompatActivity() {
 
         // TODO implement grid
         if (pref.getInt("isSwitchGridRectangle3x3", 0) == 1){
-            mCameraActivity?.setGrid(GRID_TYPE.GRID3X3)
-            return
+            mCameraActivity?.setGrid(GRID_TYPE.GRID3X3, pref.getInt("colorGrid", 0))
         }
         if (pref.getInt("isSwitchGridFib", 0) == 1){
-            mCameraActivity?.setGrid(GRID_TYPE.GRIDFIB)
-            return
+            mCameraActivity?.setGrid(GRID_TYPE.GRIDFIB, pref.getInt("colorGrid", 0))
         }
 
         if (pref.getInt("isSwitchHorizLine", 0) == 1){

@@ -6,10 +6,15 @@ import android.view.View
 import android.view.WindowManager
 import kotlin.math.PI
 import android.R.attr.path
+import java.util.*
 
 
+fun getRandomColor(): Int {
+    val rnd = Random()
+    return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
+}
 
-class Grid(context: Context, val type : GRID_TYPE) : View(context) {
+class Grid(context: Context, val type : GRID_TYPE, val color : Int) : View(context) {
     override fun onDraw(canvas: Canvas) {
         val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val display = wm.defaultDisplay
@@ -19,7 +24,15 @@ class Grid(context: Context, val type : GRID_TYPE) : View(context) {
         val height = size.y
 
         val paint = Paint()
-        paint.color = Color.parseColor("#FFFFFF")
+
+        var colorString = "#FFFFFF"
+        when (color){
+            0 -> colorString = "#FFFFFF"
+            1 -> colorString = "#A9A9A9"
+            2 -> colorString = "#000000"
+            3 -> colorString = String.format("#%06x", getRandomColor())
+        }
+        paint.color = Color.parseColor(colorString)
         paint.strokeWidth = 10F
         paint.style = Paint.Style.STROKE
         paint.isAntiAlias = true
