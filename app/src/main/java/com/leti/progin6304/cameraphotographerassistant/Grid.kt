@@ -8,7 +8,7 @@ import android.graphics.Point
 import android.view.View
 import android.view.WindowManager
 
-class Grid(context: Context) : View(context) {
+class Grid(context: Context, val type : GRID_TYPE) : View(context) {
     override fun onDraw(canvas: Canvas) {
         val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val display = wm.defaultDisplay
@@ -25,13 +25,16 @@ class Grid(context: Context) : View(context) {
         paint.isDither = true
         //paint.setARGB(255, 255, 0, 0)
 
-        val x1 = width / 3
-        val y1 = height / 3
+        if (type == GRID_TYPE.GRID3X3){
+            val x1 = width / 3
+            val y1 = height / 3
 
-        canvas.drawLine(x1.toFloat(), 0f, x1.toFloat(), height.toFloat(), paint)
-        canvas.drawLine(x1.toFloat() * 2, 0f, x1.toFloat() * 2, height.toFloat(), paint)
+            canvas.drawLine(x1.toFloat(), 0f, x1.toFloat(), height.toFloat(), paint)
+            canvas.drawLine(x1.toFloat() * 2, 0f, x1.toFloat() * 2, height.toFloat(), paint)
 
-        canvas.drawLine(0f, y1.toFloat(), width.toFloat(), y1.toFloat(), paint)
-        canvas.drawLine(0f, y1.toFloat() * 2, width.toFloat(), y1.toFloat() * 2, paint)
+            canvas.drawLine(0f, y1.toFloat(), width.toFloat(), y1.toFloat(), paint)
+            canvas.drawLine(0f, y1.toFloat() * 2, width.toFloat(), y1.toFloat() * 2, paint)
+        }
+
     }
 }

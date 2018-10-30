@@ -222,8 +222,8 @@ class CameraActivity(context: Context, frame : FrameLayout) {
     }
 
     //Создание сетки
-    public fun setGrid(){
-        val grid = Grid(mContext)
+    public fun setGrid(type:GRID_TYPE){
+        val grid = Grid(mContext,type)
         mFrame.addView(grid)
         restartPreview()
     }

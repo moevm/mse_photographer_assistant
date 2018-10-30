@@ -59,7 +59,7 @@ class MainActivity : AppCompatActivity() {
 
         // TODO implement grid
         if (pref.getInt("isSwitchGridRectangle3x3", 0) == 1){
-            mCameraActivity?.setGrid()
+            mCameraActivity?.setGrid(GRID_TYPE.GRID3X3)
             return
         }
         if (pref.getInt("isSwitchGridFib", 0) == 1){

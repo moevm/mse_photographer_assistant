@@ -7,3 +7,7 @@ enum class FLASH{
 enum class CAMERA_TYPE{
     FRONT, BACK
 }
+
+enum class GRID_TYPE{
+    GRID3X3, GRID2X2
+}
