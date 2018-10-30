@@ -3,9 +3,7 @@ package com.leti.progin6304.cameraphotographerassistant
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.content.Context
-
 import android.hardware.Camera
-
 import android.util.Log
 import android.view.Surface
 import android.view.WindowManager
@@ -44,8 +42,9 @@ class CameraPreview(
 
         // Создание словаря из типа сетки в отображение сетки
         val grids : MutableMap<GRID_TYPE, Boolean> = mutableMapOf()
-        grids.put(GRID_TYPE.GRID3X3, pref.getInt("isSwitchGridRectangle3x3", 0) == 1)
-        grids.put(GRID_TYPE.GRIDFIB, pref.getInt("isSwitchGridFib"         , 0) == 1)
+        grids.put(GRID_TYPE.GRID3X3   , pref.getInt("isSwitchGridRectangle3x3", 0) == 1)
+        grids.put(GRID_TYPE.GRIDFIB   , pref.getInt("isSwitchGridFib"         , 0) == 1)
+        grids.put(GRID_TYPE.GRIDSQUARE, pref.getInt("isSwitchGridSquare"      , 0) == 1)
         mCameraActivity?.setGrid(grids, pref.getInt("colorGrid", 0))
 
         // TODO implement line select

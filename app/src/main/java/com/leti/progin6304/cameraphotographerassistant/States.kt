@@ -9,5 +9,5 @@ enum class CAMERA_TYPE{
 }
 
 enum class GRID_TYPE{
-    GRID3X3, GRID2X2, GRIDFIB
+    GRID3X3, GRIDSQUARE, GRIDFIB
 }

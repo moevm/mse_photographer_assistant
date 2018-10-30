@@ -4,11 +4,8 @@ import android.content.Context
 import android.graphics.*
 import android.view.View
 import android.view.WindowManager
-import kotlin.math.PI
-import android.R.attr.path
-import android.widget.Toast
 import java.util.*
-
+import kotlin.math.sqrt
 
 fun getRandomColor(): Int {
     val rnd = Random()
@@ -81,6 +78,30 @@ class Grid(context: Context, private val grids : MutableMap<GRID_TYPE, Boolean>,
 
                 oval.set(w * 14 / 21, h * 8 / 34, w * 16 / 21, h * 10 / 34)
                 canvas.drawArc(oval, 270f, 180f, true, paint)
+            }
+
+            if (grid == GRID_TYPE.GRIDSQUARE && isDraw){
+                var w = width  / sqrt(5F)
+                var h = height / sqrt(5F)
+
+                val s = w * h
+                w = sqrt(s)
+                h = w
+
+                if (h >= height || w >= width){
+                    w = width  / sqrt(5F)
+                    h = height / sqrt(5F)
+                }
+
+                val startX = (width - w) / 2
+                val startY = (height - h) / 2
+
+                canvas.drawLine(startX, startY, startX, startY + h, paint)
+                canvas.drawLine(startX, startY, startX + w, startY, paint)
+
+                canvas.drawLine(startX, startY + h, startX + w, startY + h, paint)
+                canvas.drawLine(startX + w, startY, startX + w, startY + h, paint)
+
             }
         }
 
