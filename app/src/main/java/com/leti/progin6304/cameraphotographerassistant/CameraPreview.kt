@@ -14,10 +14,9 @@ import android.widget.Toast
 import java.io.IOException
 
 class CameraPreview(
-        private var mContext: Context,
-        private var mCamera: Camera,
-        private var mCameraId: CAMERA_TYPE
-) : SurfaceView(mContext), SurfaceHolder.Callback {
+        private var mCameraActivity: CameraActivity,
+        private var mCamera: Camera
+) : SurfaceView(mCameraActivity.mContext), SurfaceHolder.Callback {
 
 
     private val mHolder: SurfaceHolder = holder.apply {
@@ -31,6 +30,7 @@ class CameraPreview(
             try {
                 setParameters()
                 setPreviewDisplay(holder)
+                setGrids()
                 startPreview()
             } catch (e: IOException) {
                 Log.d("TAGME", "Error setting camera preview: ${e.message}")
@@ -38,15 +38,34 @@ class CameraPreview(
         }
     }
 
+    // Получение информации со страницы настроек и инициализация сеток
+    private fun setGrids(){
+        val pref = mCameraActivity.mContext.getSharedPreferences("MY_SETTINGS", Context.MODE_PRIVATE)
+
+        // Создание словаря из типа сетки в отображение сетки
+        val grids : MutableMap<GRID_TYPE, Boolean> = mutableMapOf()
+        grids.put(GRID_TYPE.GRID3X3, pref.getInt("isSwitchGridRectangle3x3", 0) == 1)
+        grids.put(GRID_TYPE.GRIDFIB, pref.getInt("isSwitchGridFib"         , 0) == 1)
+        mCameraActivity?.setGrid(grids, pref.getInt("colorGrid", 0))
+
+        // TODO implement line select
+        if (pref.getInt("isSwitchHorizLine", 0) == 1){
+            //showHorizLine()
+        }
+        if (pref.getInt("isSwitchVertLine", 0) == 1){
+            //showVertLine()
+        }
+    }
+
     // Установка параметров
     private fun setParameters(){
         val parameters = mCamera.parameters
         parameters?.jpegQuality = 80
-        if (mCameraId == CAMERA_TYPE.BACK)
+        if (mCameraActivity.mCameraType == CAMERA_TYPE.BACK)
             parameters?.focusMode = Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE
 
 		//Поворот View
-        val display = (mContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
+        val display = (mCameraActivity.mContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
         if (display.rotation == Surface.ROTATION_0) {
             mCamera.setDisplayOrientation(90)
         } else if (display.rotation == Surface.ROTATION_270) {
@@ -62,11 +81,12 @@ class CameraPreview(
             }
         }
 
+        // Установка найденных размеров
         parameters.setPictureSize(size.width, size.height)
         try {
             mCamera.parameters = parameters          //Установка новых параметров
         } catch (e :Exception){
-            Toast.makeText(context, "Can't set parametrs", Toast.LENGTH_SHORT).show()
+            Toast.makeText(mCameraActivity.mContext, "Can't set parametrs", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -83,11 +103,6 @@ class CameraPreview(
         } catch (e: Exception) {
         }
 
-
-        // set preview size and make any resize, rotate or
-        // reformatting changes here
-
-        // start preview with new settings
         mCamera.apply {
             try {
                 setParameters()

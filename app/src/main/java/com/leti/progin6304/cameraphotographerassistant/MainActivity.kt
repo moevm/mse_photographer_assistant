@@ -25,8 +25,6 @@ class MainActivity : AppCompatActivity() {
     private var actionOnPermission: ((granted: Boolean) -> Unit)? = null
     private var isAskingPermissions = false
 
-    private lateinit var pref : SharedPreferences           // Настройки сеток
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -39,30 +37,11 @@ class MainActivity : AppCompatActivity() {
                     hideBars()
                     initButtons()
                     initCamera()
-                    setPref()
                 }
             }
         }
 
         // TODO rotation problem
-    }
-
-    // Получение информации со страницы настроек и инициализация сеток
-    private fun setPref(){
-        pref = getSharedPreferences("MY_SETTINGS", Context.MODE_PRIVATE)
-
-        val grids : MutableMap<GRID_TYPE, Boolean> = mutableMapOf()
-        grids.put(GRID_TYPE.GRID3X3, pref.getInt("isSwitchGridRectangle3x3", 0) == 1)
-        grids.put(GRID_TYPE.GRIDFIB, pref.getInt("isSwitchGridFib"         , 0) == 1)
-        mCameraActivity?.setGrid(grids, pref.getInt("colorGrid", 0))
-
-        // TODO implement line select
-        if (pref.getInt("isSwitchHorizLine", 0) == 1){
-            //showHorizLine()
-        }
-        if (pref.getInt("isSwitchVertLine", 0) == 1){
-            //showVertLine()
-        }
     }
 
     //Обработка разрешений
