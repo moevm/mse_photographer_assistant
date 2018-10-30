@@ -55,6 +55,7 @@ class SettingsActivity : AppCompatActivity() {
         switchGridRectangle3x3.isChecked = pref.getInt("isSwitchGridRectangle3x3", 0).toBoolean()
         switchGridFib.isChecked = pref.getInt("isSwitchGridFib", 0).toBoolean()
         switchGridSquare.isChecked = pref.getInt("isSwitchGridSquare", 0).toBoolean()
+        switchGridCenter.isChecked = pref.getInt("isSwitchGridCenter", 0).toBoolean()
         switchHorizLine.isChecked = pref.getInt("isSwitchHorizLine", 0).toBoolean()
         switchVertLine.isChecked = pref.getInt("isSwitchVertLine", 0).toBoolean()
 
@@ -70,6 +71,9 @@ class SettingsActivity : AppCompatActivity() {
         }
         switchGridSquare.setOnClickListener{
             launchSwitchGridSquare()
+        }
+        switchGridCenter.setOnClickListener{
+            launchSwitchGridCenter()
         }
         switchHorizLine.setOnClickListener{
             launchSwitchHorizLine()
@@ -91,6 +95,15 @@ class SettingsActivity : AppCompatActivity() {
     // Обновление информации отображения сетки Фибоначчи
     private fun launchSwitchGridFib(){
         if (switchGridFib.isChecked){
+            switchHorizLine.isChecked = false
+            switchVertLine.isChecked = false
+        }
+        updatePref()
+    }
+
+    // Обновление информации отображения сетки центра экрана
+    private fun launchSwitchGridCenter(){
+        if (switchGridCenter.isChecked){
             switchHorizLine.isChecked = false
             switchVertLine.isChecked = false
         }
@@ -131,6 +144,7 @@ class SettingsActivity : AppCompatActivity() {
         editor.putInt("isSwitchGridRectangle3x3", switchGridRectangle3x3.isChecked.toInt())
         editor.putInt("isSwitchGridFib",  switchGridFib.isChecked.toInt())
         editor.putInt("isSwitchGridSquare", switchGridSquare.isChecked.toInt())
+        editor.putInt("isSwitchGridCenter", switchGridCenter.isChecked.toInt())
         editor.putInt("isSwitchHorizLine", switchHorizLine.isChecked.toInt())
         editor.putInt("isSwitchVertLine", switchVertLine.isChecked.toInt())
         editor.apply()

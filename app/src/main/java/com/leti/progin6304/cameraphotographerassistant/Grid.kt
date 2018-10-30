@@ -23,6 +23,7 @@ class Grid(context: Context, private val grids : MutableMap<GRID_TYPE, Boolean>,
 
         val paint = Paint()
 
+        // Выбор цвета
         var colorString = "#FFFFFF"
         when (color){
             0 -> colorString = "#FFFFFF"
@@ -38,7 +39,7 @@ class Grid(context: Context, private val grids : MutableMap<GRID_TYPE, Boolean>,
         //paint.setARGB(255, 255, 0, 0)
 
         for ((grid, isDraw) in grids){
-            if (grid == GRID_TYPE.GRID3X3 && isDraw){
+            if (grid == GRID_TYPE.GRID3X3 && isDraw){   // Отрисовка сетки 3х3
                 val x1 = width / 3
                 val y1 = height / 3
 
@@ -49,14 +50,14 @@ class Grid(context: Context, private val grids : MutableMap<GRID_TYPE, Boolean>,
                 canvas.drawLine(0f, y1.toFloat() * 2, width.toFloat(), y1.toFloat() * 2, paint)
             }
 
-            if (grid == GRID_TYPE.GRIDFIB && isDraw){
+            if (grid == GRID_TYPE.GRIDFIB && isDraw){   // Отрисовка спирали Фибоначчи
 
-                var path : Path = Path()
+                val path : Path = Path()
                 path.moveTo(0F, 0F)
 
                 val oval = RectF()
-                var w : Float = width.toFloat()
-                var h : Float = height.toFloat()
+                val w = width.toFloat()
+                val h = height.toFloat()
 
                 oval.set(0f, -h * 8 / 34, w*2, h)
                 canvas.drawArc(oval, 90f, 90f, true, paint)
@@ -80,7 +81,7 @@ class Grid(context: Context, private val grids : MutableMap<GRID_TYPE, Boolean>,
                 canvas.drawArc(oval, 270f, 180f, true, paint)
             }
 
-            if (grid == GRID_TYPE.GRIDSQUARE && isDraw){
+            if (grid == GRID_TYPE.GRIDSQUARE && isDraw){    // Отрисовка центрированного квадрата
                 var w = width  / sqrt(5F)
                 var h = height / sqrt(5F)
 
@@ -101,6 +102,17 @@ class Grid(context: Context, private val grids : MutableMap<GRID_TYPE, Boolean>,
 
                 canvas.drawLine(startX, startY + h, startX + w, startY + h, paint)
                 canvas.drawLine(startX + w, startY, startX + w, startY + h, paint)
+
+            }
+
+            if (grid == GRID_TYPE.GRIDCENTER && isDraw){   // Отрисовка центра экрана
+                val size = width * 0.05F
+
+                val centerX = width / 2F
+                val centerY = height / 2F
+
+                canvas.drawLine(centerX, centerY - size / 2, centerX, centerY + size / 2, paint)
+                canvas.drawLine(centerX - size / 2, centerY, centerX + size / 2, centerY, paint)
 
             }
         }

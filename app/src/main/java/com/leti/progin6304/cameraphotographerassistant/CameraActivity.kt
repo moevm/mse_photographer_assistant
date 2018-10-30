@@ -31,11 +31,11 @@ class CameraActivity(context: Context, frame : FrameLayout) {
     private val DELAY_PREVIEW = 500L         // Задержка перезапуска Preview
     private val DELAY_FLASH   = 1000L        // в обычном состоянии и со вспышкой
 
-    var mContext : Context = context  // MainActivity
+    var mContext : Context = context          // MainActivity
     private var mFrame : FrameLayout = frame  // frame для отображение вида с камеры
 
-    var mCameraType : CAMERA_TYPE = CAMERA_TYPE.BACK          // Фронтальная или задняя камера
-    private var mFlashType : FLASH = FLASH.FLASH_OFF          // Состояние всыпшки
+    var mCameraType : CAMERA_TYPE = CAMERA_TYPE.BACK   // Фронтальная или задняя камера
+    private var mFlashType : FLASH = FLASH.FLASH_OFF   // Состояние всыпшки
 
     private var mCameraIdBack  : Int = 0
     private var mCameraIdFront : Int = 0    // Id фронтальной и задней камера
