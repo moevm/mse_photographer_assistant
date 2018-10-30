@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
             return
         }
         if (pref.getInt("isSwitchGridFib", 0) == 1){
-            //showGridFib()
+            mCameraActivity?.setGrid(GRID_TYPE.GRIDFIB)
             return
         }
 
