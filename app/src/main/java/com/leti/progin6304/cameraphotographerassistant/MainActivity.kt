@@ -51,20 +51,12 @@ class MainActivity : AppCompatActivity() {
     private fun setPref(){
         pref = getSharedPreferences("MY_SETTINGS", Context.MODE_PRIVATE)
 
-        // Debug status switches
-        //Toast.makeText(this, "3x3: "  + pref.getInt("isSwitchGridRectangle3x3", 0).toString(), Toast.LENGTH_SHORT).show()
-        //Toast.makeText(this, "Fib: "  + pref.getInt("isSwitchGridFib", 0).toString(), Toast.LENGTH_SHORT).show()
-        //Toast.makeText(this, "Horiz: " + pref.getInt("isSwitchHorizLine", 0).toString(), Toast.LENGTH_SHORT).show()
-        //Toast.makeText(this, "Vert: "  + pref.getInt("isSwitchVertLine", 0).toString(), Toast.LENGTH_SHORT).show()
+        val grids : MutableMap<GRID_TYPE, Boolean> = mutableMapOf()
+        grids.put(GRID_TYPE.GRID3X3, pref.getInt("isSwitchGridRectangle3x3", 0) == 1)
+        grids.put(GRID_TYPE.GRIDFIB, pref.getInt("isSwitchGridFib"         , 0) == 1)
+        mCameraActivity?.setGrid(grids, pref.getInt("colorGrid", 0))
 
-        // TODO implement grid
-        if (pref.getInt("isSwitchGridRectangle3x3", 0) == 1){
-            mCameraActivity?.setGrid(GRID_TYPE.GRID3X3, pref.getInt("colorGrid", 0))
-        }
-        if (pref.getInt("isSwitchGridFib", 0) == 1){
-            mCameraActivity?.setGrid(GRID_TYPE.GRIDFIB, pref.getInt("colorGrid", 0))
-        }
-
+        // TODO implement line select
         if (pref.getInt("isSwitchHorizLine", 0) == 1){
             //showHorizLine()
         }
