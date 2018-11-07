@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.*
 import android.view.View
 import android.view.WindowManager
+import android.widget.Toast
 import java.util.*
 import kotlin.math.sqrt
 
@@ -56,28 +57,31 @@ class Grid(context: Context, private val grids : MutableMap<GRID_TYPE, Boolean>,
                 path.moveTo(0F, 0F)
 
                 val oval = RectF()
-                val w = width.toFloat()
-                val h = height.toFloat()
 
-                oval.set(0f, -h * 8 / 34, w*2, h)
+                val h = size.y.toFloat()
+                val w : Float = 21 * h / 34 * 0.95F
+
+                val offsetX = (size.x - w) / 2
+
+                oval.set(offsetX, -h * 8 / 34, offsetX + w*2, h)
                 canvas.drawArc(oval, 90f, 90f, true, paint)
 
-                oval.set(0F, 0f, w * 13 / 21 * 2, h * 13 / 34 * 2)
+                oval.set(offsetX, 0f, offsetX + w * 13 / 21 * 2, h * 13 / 34 * 2)
                 canvas.drawArc(oval, 180f, 90f, true, paint)
 
-                oval.set(w * 5 / 21, 0f, w, h * 16 / 34)
+                oval.set(offsetX + w * 5 / 21, 0f, offsetX + w, h * 16 / 34)
                 canvas.drawArc(oval, 270f, 90f, true, paint)
 
-                oval.set(w * 11 / 21, h * 3 / 34, w, h * 13 / 34)
+                oval.set(offsetX + w * 11 / 21, h * 3 / 34,offsetX +  w, h * 13 / 34)
                 canvas.drawArc(oval, 0f, 90f, true, paint)
 
-                oval.set(w * 13 / 21, h * 7 / 34, w * 19 / 21, h * 13 / 34)
+                oval.set(offsetX + w * 13 / 21, h * 7 / 34, offsetX + w * 19 / 21, h * 13 / 34)
                 canvas.drawArc(oval, 90f, 90f, true, paint)
 
-                oval.set(w * 13 / 21, h * 8 / 34, w * 17 / 21, h * 12 / 34)
+                oval.set(offsetX + w * 13 / 21, h * 8 / 34, offsetX + w * 17 / 21, h * 12 / 34)
                 canvas.drawArc(oval, 180f, 90f, true, paint)
 
-                oval.set(w * 14 / 21, h * 8 / 34, w * 16 / 21, h * 10 / 34)
+                oval.set(offsetX + w * 14 / 21, h * 8 / 34,offsetX +  w * 16 / 21, h * 10 / 34)
                 canvas.drawArc(oval, 270f, 180f, true, paint)
             }
 
@@ -113,10 +117,7 @@ class Grid(context: Context, private val grids : MutableMap<GRID_TYPE, Boolean>,
 
                 canvas.drawLine(centerX, centerY - size / 2, centerX, centerY + size / 2, paint)
                 canvas.drawLine(centerX - size / 2, centerY, centerX + size / 2, centerY, paint)
-
             }
         }
-
-
     }
 }
