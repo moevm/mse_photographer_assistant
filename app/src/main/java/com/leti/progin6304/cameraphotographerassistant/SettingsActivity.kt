@@ -124,6 +124,8 @@ class SettingsActivity : AppCompatActivity() {
         if (switchHorizLine.isChecked){
             switchGridRectangle3x3.isChecked = false
             switchGridFib.isChecked = false
+            switchGridCenter.isChecked = false
+            switchGridSquare.isChecked = false
         }
         updatePref()
     }
@@ -133,6 +135,8 @@ class SettingsActivity : AppCompatActivity() {
         if (switchVertLine.isChecked){
             switchGridRectangle3x3.isChecked = false
             switchGridFib.isChecked = false
+            switchGridCenter.isChecked = false
+            switchGridSquare.isChecked = false
         }
         updatePref()
     }

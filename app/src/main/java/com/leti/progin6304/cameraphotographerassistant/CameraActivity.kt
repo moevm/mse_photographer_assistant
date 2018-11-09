@@ -41,7 +41,9 @@ class CameraActivity(context: Context, frame : FrameLayout) {
     private var mCameraIdFront : Int = 0    // Id фронтальной и задней камера
 
     private var mPictureFile : File? = null   // Файл сохранения снимка
-
+    
+    private var isShowLines : Boolean = false
+            
     init{
         setCamerasId()              // Получение Id фронтальной и задней камер
         initCamera(mCameraIdBack)   // Инициализация задней камеры
@@ -221,10 +223,25 @@ class CameraActivity(context: Context, frame : FrameLayout) {
                 "IMG_" + timeStamp + ".jpg")
     }
 
+   fun drawLines(angle_1: Double, angle_2 : Double){
+       val pref = mContext.getSharedPreferences("MY_SETTINGS", Context.MODE_PRIVATE)
+       val line = Line(mContext, angle_1, angle_2,
+               pref.getInt("isSwitchHorizLine", 0) == 1,
+                pref.getInt("isSwitchVertLine", 0) == 1)
+       
+       if (isShowLines) {
+           mFrame.removeViewAt(2)
+       }
+       isShowLines = true
+       mFrame.addView(line, 2)
+       restartPreview()
+   }
+
     //Создание сетки
     fun setGrid(grids : MutableMap<GRID_TYPE, Boolean>, color : Int){
         val grid = Grid(mContext, grids, color)
-        mFrame.addView(grid)
+        mFrame.addView(grid, 1)
         restartPreview()
     }
+    
 }
