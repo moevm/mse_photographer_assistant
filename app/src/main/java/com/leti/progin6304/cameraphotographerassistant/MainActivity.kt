@@ -2,17 +2,24 @@ package com.leti.progin6304.cameraphotographerassistant
 
 
 import android.Manifest
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.WindowManager
+import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), SensorEventListener {
 
     private var mCameraActivity : CameraActivity? = null     // Камера
     private var mFlash : FLASH = FLASH.FLASH_OFF             // Текущее состояние вспышки
@@ -21,6 +28,9 @@ class MainActivity : AppCompatActivity() {
     private val GENERIC_PERM_HANDLER = 100
     private var actionOnPermission: ((granted: Boolean) -> Unit)? = null
     private var isAskingPermissions = false
+
+    private var sensor: Sensor? = null
+    private var mSensorManager: SensorManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,11 +44,40 @@ class MainActivity : AppCompatActivity() {
                     hideBars()
                     initButtons()
                     initCamera()
+                    initSensors()
                 }
             }
         }
 
         // TODO rotation problem
+    }
+
+    private fun initSensors(){
+        mSensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
+        sensor = mSensorManager!!.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mSensorManager!!.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        mSensorManager!!.unregisterListener(this)
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
+
+    override fun onSensorChanged(event: SensorEvent?) {
+        val x = Math.toDegrees(event!!.values[0].toDouble())
+        val y = Math.toDegrees(event.values[1].toDouble())
+
+        val angle_1 = Math.atan2(x,y)
+        val angle_2 = -Math.atan2(y,x)
+
+        mCameraActivity?.drawLines(angle_1, angle_2)
+
     }
 
     //Обработка разрешений
@@ -109,7 +148,6 @@ class MainActivity : AppCompatActivity() {
         // Смена параметров вспышки камеры
         mCameraActivity?.turnFlash(mFlash)
     }
-
 
     // Изменение иконки
     private fun changeFlashIcon(flash_: FLASH){

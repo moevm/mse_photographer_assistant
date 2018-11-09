@@ -46,15 +46,9 @@ class CameraPreview(
         grids.put(GRID_TYPE.GRIDFIB   , pref.getInt("isSwitchGridFib"         , 0) == 1)
         grids.put(GRID_TYPE.GRIDSQUARE, pref.getInt("isSwitchGridSquare"      , 0) == 1)
         grids.put(GRID_TYPE.GRIDCENTER, pref.getInt("isSwitchGridCenter"      , 0) == 1)
+
         mCameraActivity?.setGrid(grids, pref.getInt("colorGrid", 0))
 
-        // TODO implement line select
-        if (pref.getInt("isSwitchHorizLine", 0) == 1){
-            //showHorizLine()
-        }
-        if (pref.getInt("isSwitchVertLine", 0) == 1){
-            //showVertLine()
-        }
     }
 
     // Установка параметров
