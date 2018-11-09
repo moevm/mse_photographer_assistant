@@ -8,8 +8,8 @@ import android.graphics.Point
 import android.view.View
 import android.view.WindowManager
 
-class Line(context: Context, private val angle_1 : Double,
-                             private val angle_2 : Double,
+class Line(context: Context, private val angleHorizLine : Double,
+                             private val angleVertLines : Double,
                              private val isShowHorizLine : Boolean,
                              private val isShowVertLine : Boolean ) : View(context) {
 
@@ -22,7 +22,7 @@ class Line(context: Context, private val angle_1 : Double,
         val paint = Paint()
 
         paint.color = Color.parseColor("#FFFFFF")
-        paint.strokeWidth = 10F
+        paint.strokeWidth = 8F
         paint.style = Paint.Style.STROKE
         paint.isAntiAlias = true
         paint.isDither = true
@@ -31,11 +31,11 @@ class Line(context: Context, private val angle_1 : Double,
         val h : Double = size.y.toDouble()
 
         if (isShowHorizLine){
-            val dh = Math.tan(angle_1) * w / 2
+            val dh = Math.tan(angleHorizLine) * w / 2
             canvas.drawLine(0f, (h / 2 - dh).toFloat(), w.toFloat(), (h /2 + dh).toFloat(), paint)
         }
         if (isShowVertLine){
-            val dh = Math.tan(angle_2) * w / 2
+            val dh = Math.tan(angleVertLines) * w / 2
             canvas.drawLine(0f, (h / 2 - dh).toFloat(), w.toFloat(), (h /2 + dh).toFloat(), paint)
         }
         
