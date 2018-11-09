@@ -187,6 +187,7 @@ class CameraActivity(context: Context, frame : FrameLayout) {
 			// Запись данных в файл
             Toast.makeText(mContext, "Success", Toast.LENGTH_SHORT).show()
             val fos = FileOutputStream(mPictureFile)
+            // TODO rotation problem
             //val display = (mContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
             //var angle = 0.0F
             //val matrix = Matrix()
