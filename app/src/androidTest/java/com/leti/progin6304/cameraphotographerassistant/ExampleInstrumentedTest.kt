@@ -25,23 +25,27 @@ class ExampleInstrumentedTest {
     @JvmField
     var mActivityRule = ActivityTestRule(MainActivity::class.java)
 
+    /*Проверка на отображение главной панели*/
     @Test
     fun isVisibleCamera() {
         onView(withId(R.id.camera_preview)).check(matches(isDisplayed()))
     }
 
+    /*Проверка на отображение снимка*/
     @Test
     fun isClickableButton() {
         onView(withId(R.id.shutter)).perform(click())
                 .check(matches(isDisplayed()))
     }
 
+    /*Проверка на отображение смены камеры*/
     @Test
     fun isClickableButtonSwitchCamera() {
         onView(withId(R.id.switchCamera)).perform(click())
                 .check(matches(isDisplayed()))
     }
 
+    /*Проверка на отображение панели настроек*/
     @Test
     fun isClickableButtonSettings() {
         onView(withId(R.id.settings)).perform(click())
