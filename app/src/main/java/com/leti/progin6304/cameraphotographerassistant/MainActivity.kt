@@ -17,7 +17,9 @@ import android.view.WindowManager
 import kotlinx.android.synthetic.main.activity_main.*
 
 
-class MainActivity : AppCompatActivity(), SensorEventListener {
+//class MainActivity : AppCompatActivity(), SensorEventListener {
+
+class MainActivity : AppCompatActivity(){
 
     private var mCameraActivity : CameraActivity? = null     // Камера
     private var mFlash : FLASH = FLASH.FLASH_OFF             // Текущее состояние вспышки
@@ -52,7 +54,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         mSensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         sensor = mSensorManager!!.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
     }
-
+/*
     override fun onResume() {
         super.onResume()
         mSensorManager!!.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL)
@@ -75,6 +77,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         mCameraActivity?.drawLines(angle_1, angle_2)
 
     }
+*/
 
     //Обработка разрешений
     private fun hasPermission(permId: String) = ContextCompat.checkSelfPermission(this, permId) == PackageManager.PERMISSION_GRANTED;

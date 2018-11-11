@@ -36,6 +36,14 @@ class ExampleInstrumentedTest {
                 .check(matches(isDisplayed()))
     }
 
+    @Test
+    fun isClickableButtonSwitchCamera() {
+        onView(withId(R.id.switchCamera)).perform(click())
+                .check(matches(isDisplayed()))
+    }
 
-
+    @Test
+    fun isClickableButtonSettings() {
+        onView(withId(R.id.settings)).perform(click())
+    }
 }
