@@ -38,12 +38,13 @@ class ExampleInstrumentedTest {
                 .check(matches(isDisplayed()))
     }
 
+    /*
     /*Проверка на отображение смены камеры*/
     @Test
     fun isClickableButtonSwitchCamera() {
-        onView(withId(R.id.switchCamera)).perform(click())
-                .check(matches(isDisplayed()))
+        onView(withId(R.id.switchCamera)).perform(click()).check(matches(isDisplayed()))
     }
+    */
 
     /*Проверка на отображение панели настроек*/
     @Test
