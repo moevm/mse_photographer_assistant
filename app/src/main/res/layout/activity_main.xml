@@ -45,11 +45,10 @@
         android:gravity="center_horizontal|bottom">
 
         <ImageView
-            android:id="@+id/grid"
+            android:id="@+id/todo"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_weight="1"
-            app:srcCompat="@mipmap/ic_grid" />
+            android:layout_weight="1" />
 
         <ImageView
             android:id="@+id/shutter"

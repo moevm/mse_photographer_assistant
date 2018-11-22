@@ -31,17 +31,19 @@ class CameraActivity(context: Context, frame : FrameLayout) {
     private val DELAY_PREVIEW = 500L         // Задержка перезапуска Preview
     private val DELAY_FLASH   = 1000L        // в обычном состоянии и со вспышкой
 
-    private var mContext : Context = context  // MainActivity
+    var mContext : Context = context          // MainActivity
     private var mFrame : FrameLayout = frame  // frame для отображение вида с камеры
 
-    private var mCameraType : CAMERA_TYPE = CAMERA_TYPE.BACK  // Фронтальная или задняя камера
-    private var mFlashType : FLASH = FLASH.FLASH_OFF          // Состояние всыпшки
+    var mCameraType : CAMERA_TYPE = CAMERA_TYPE.BACK   // Фронтальная или задняя камера
+    private var mFlashType : FLASH = FLASH.FLASH_OFF   // Состояние всыпшки
 
     private var mCameraIdBack  : Int = 0
     private var mCameraIdFront : Int = 0    // Id фронтальной и задней камера
 
     private var mPictureFile : File? = null   // Файл сохранения снимка
-
+    
+    private var isShowLines : Boolean = false
+            
     init{
         setCamerasId()              // Получение Id фронтальной и задней камер
         initCamera(mCameraIdBack)   // Инициализация задней камеры
@@ -59,7 +61,7 @@ class CameraActivity(context: Context, frame : FrameLayout) {
     // Инициализация камеры
     private fun initCamera(id : Int){
         mCamera = getCameraInstance(id)
-        mPreview = CameraPreview(mContext, mCamera!!, mCameraType!!)
+        mPreview = CameraPreview(this, mCamera!! )
         mFrame.addView(mPreview)
     }
 
@@ -89,7 +91,7 @@ class CameraActivity(context: Context, frame : FrameLayout) {
 
         // Создание новой камеры
         mCamera = getCameraInstance(newId)
-        mPreview = CameraPreview(mContext, mCamera!!, mCameraType)
+        mPreview = CameraPreview(this, mCamera!!)
 
         mFrame.removeAllViews()
         mFrame.addView(mPreview)
@@ -185,6 +187,7 @@ class CameraActivity(context: Context, frame : FrameLayout) {
 			// Запись данных в файл
             Toast.makeText(mContext, "Success", Toast.LENGTH_SHORT).show()
             val fos = FileOutputStream(mPictureFile)
+            // TODO rotation problem
             //val display = (mContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
             //var angle = 0.0F
             //val matrix = Matrix()
@@ -220,4 +223,26 @@ class CameraActivity(context: Context, frame : FrameLayout) {
         return File(mediaStorageDir.path + File.separator +
                 "IMG_" + timeStamp + ".jpg")
     }
+
+   fun drawLines(angle_1: Double, angle_2 : Double){
+       val pref = mContext.getSharedPreferences("MY_SETTINGS", Context.MODE_PRIVATE)
+       val line = Line(mContext, angle_1, angle_2,
+               pref.getInt("isSwitchHorizLine", 0) == 1,
+                pref.getInt("isSwitchVertLine", 0) == 1)
+       
+       if (isShowLines) {
+           mFrame.removeViewAt(2)
+       }
+       isShowLines = true
+       mFrame.addView(line, 2)
+       restartPreview()
+   }
+
+    //Создание сетки
+    fun setGrid(grids : MutableMap<GRID_TYPE, Boolean>, color : Int){
+        val grid = Grid(mContext, grids, color)
+        mFrame.addView(grid, 1)
+        restartPreview()
+    }
+    
 }
