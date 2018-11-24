@@ -7,7 +7,8 @@ import android.view.View
 import android.view.WindowManager
 
 
-class FaceRect(context: Context, faces: Array<out Camera.Face>?, val mCameraType: CAMERA_TYPE) : View(context) {
+class FaceRect(context: Context, faces: Array<out Camera.Face>?,
+               private val mCameraType: CAMERA_TYPE) : View(context) {
 
     private lateinit var mPaint: Paint
     private lateinit var mTextPaint: Paint
@@ -42,13 +43,10 @@ class FaceRect(context: Context, faces: Array<out Camera.Face>?, val mCameraType
 
     override fun onDraw(canvas: Canvas) {
         initialize()
-        canvas.drawLine(0f,0f,0f,0f,mPaint)
         if (mFaces != null) {
             val matrix = Matrix()
-            if (mCameraType == CAMERA_TYPE.FRONT)
-                prepareMatrix(matrix, true, mDisplayOrientation, width, height)
-            else
-                prepareMatrix(matrix, false, mDisplayOrientation, width, height)
+            prepareMatrix(matrix, mCameraType == CAMERA_TYPE.FRONT,
+                    mDisplayOrientation, width, height)
             canvas.save()
             matrix.postRotate(mOrientation)
             canvas.rotate(-mOrientation)
@@ -57,14 +55,14 @@ class FaceRect(context: Context, faces: Array<out Camera.Face>?, val mCameraType
                 rectF.set(face.rect)
                 matrix.mapRect(rectF)
                 canvas.drawRect(rectF, mPaint)
-                canvas.drawText("Face $i", rectF.left, rectF.bottom, mTextPaint)
+                canvas.drawText("Face ${i+1}", rectF.left, rectF.bottom, mTextPaint)
             }
             canvas.restore()
         }
     }
 
-    private fun prepareMatrix(matrix: Matrix, mirror: Boolean, displayOrientation: Float,
-                              viewWidth: Int, viewHeight: Int) {
+    private fun prepareMatrix(matrix: Matrix, mirror: Boolean,
+                              displayOrientation: Float, viewWidth: Int, viewHeight: Int) {
 
         matrix.setScale(if (mirror) (-1).toFloat() else 1F, 1F)
         matrix.postRotate(displayOrientation)
