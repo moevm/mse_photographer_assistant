@@ -10,6 +10,7 @@ import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -28,6 +29,9 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
 
     private var sensor: Sensor? = null
     private var mSensorManager: SensorManager? = null
+
+    private var angle_1 = 0.0
+    private var angle_2 = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +54,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private fun initSensors(){
         mSensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
         sensor = mSensorManager!!.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
+        Handler().postDelayed(object : Runnable {
+            override fun run() {
+                mCameraActivity?.drawLines(angle_1, angle_2)
+                Handler().postDelayed(this, 100)
+            }
+        }, 100)
     }
 
     override fun onResume() {
@@ -62,17 +72,15 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         mSensorManager!!.unregisterListener(this)
     }
 
+
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
 
     override fun onSensorChanged(event: SensorEvent?) {
         val x = Math.toDegrees(event!!.values[0].toDouble())
         val y = Math.toDegrees(event.values[1].toDouble())
 
-        val angle_1 = Math.atan2(x,y)
-        val angle_2 = -Math.atan2(y,x)
-
-        mCameraActivity?.drawLines(angle_1, angle_2)
-
+        angle_1 = Math.atan2(x,y)
+        angle_2 = -Math.atan2(y,x)
     }
 
     //Обработка разрешений
