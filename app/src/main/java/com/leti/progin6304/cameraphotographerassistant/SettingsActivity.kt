@@ -30,7 +30,7 @@ class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-        title = "Settings"
+        title = "Настройки"
 
         setSwitch()
         initSwitch()
@@ -88,7 +88,7 @@ class SettingsActivity : AppCompatActivity() {
         switchGridCenter.isChecked = pref.getInt("isSwitchGridCenter", 0).toBoolean()
         switchHorizLine.isChecked = pref.getInt("isSwitchHorizLine", 0).toBoolean()
         switchVertLine.isChecked = pref.getInt("isSwitchVertLine", 0).toBoolean()
-
+        switchFace.isChecked = pref.getInt("isSwitchFace", 0).toBoolean()
     }
 
     // Инициализация обработки нажатия
@@ -110,6 +110,9 @@ class SettingsActivity : AppCompatActivity() {
         }
         switchVertLine.setOnClickListener{
             launchSwitchVertLine()
+        }
+        switchFace.setOnClickListener{
+            launchSwitchFace()
         }
     }
 
@@ -171,6 +174,10 @@ class SettingsActivity : AppCompatActivity() {
         updatePref()
     }
 
+    private fun launchSwitchFace(){
+        updatePref()
+    }
+
 
     // Обновление информации всех сеток
     private fun updatePref(){
@@ -181,6 +188,8 @@ class SettingsActivity : AppCompatActivity() {
         editor.putInt("isSwitchGridCenter", switchGridCenter.isChecked.toInt())
         editor.putInt("isSwitchHorizLine", switchHorizLine.isChecked.toInt())
         editor.putInt("isSwitchVertLine", switchVertLine.isChecked.toInt())
+        editor.putInt("isSwitchFace", switchFace.isChecked.toInt())
+
         editor.apply()
     }
 

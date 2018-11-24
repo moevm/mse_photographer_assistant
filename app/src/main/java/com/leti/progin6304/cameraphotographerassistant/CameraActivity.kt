@@ -34,7 +34,7 @@ class CameraActivity(context: Context, frame : FrameLayout) {
     private val DELAY_FLASH   = 1000L        // в обычном состоянии и со вспышкой
 
     var mContext : Context = context          // MainActivity
-    private var mFrame : FrameLayout = frame  // frame для отображение вида с камеры
+    var mFrame : FrameLayout = frame  // frame для отображение вида с камеры
 
     var mCameraType : CAMERA_TYPE = CAMERA_TYPE.BACK   // Фронтальная или задняя камера
     private var mFlashType : FLASH = FLASH.FLASH_OFF   // Состояние всыпшки
@@ -63,8 +63,9 @@ class CameraActivity(context: Context, frame : FrameLayout) {
     // Инициализация камеры
     private fun initCamera(id : Int){
         mCamera = getCameraInstance(id)
-        mPreview = CameraPreview(this, mCamera!! )
+        mPreview = CameraPreview(this, mCamera!!)
         mFrame.addView(mPreview)
+        mCamera?.setFaceDetectionListener(MyFaceDetectionListener(mContext, mFrame, mCameraType))
     }
 
     // Получние Id камер
@@ -146,6 +147,8 @@ class CameraActivity(context: Context, frame : FrameLayout) {
     // Перезапуск preview после снимка
     private fun restartPreview(){
         isShowLines = false
+
+        mCamera?.setFaceDetectionListener(MyFaceDetectionListener(mContext, mFrame, mCameraType))
         try {
             mCamera?.startPreview()
         } catch (e : Exception){
@@ -239,8 +242,7 @@ class CameraActivity(context: Context, frame : FrameLayout) {
            isShowLines = true
            mFrame.addView(line, 2)
        }
-       catch (e : Exception){}
-       finally {}
+       catch (e : Exception){ isShowLines = false}
 
    }
 
