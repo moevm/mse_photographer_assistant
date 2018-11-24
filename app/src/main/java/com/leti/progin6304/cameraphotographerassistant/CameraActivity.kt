@@ -143,6 +143,7 @@ class CameraActivity(context: Context, frame : FrameLayout) {
 
     // Перезапуск preview после снимка
     private fun restartPreview(){
+        isShowLines = false
         try {
             mCamera?.startPreview()
         } catch (e : Exception){
@@ -229,13 +230,16 @@ class CameraActivity(context: Context, frame : FrameLayout) {
        val line = Line(mContext, angle_1, angle_2,
                pref.getInt("isSwitchHorizLine", 0) == 1,
                 pref.getInt("isSwitchVertLine", 0) == 1)
-       
-       if (isShowLines) {
-           mFrame.removeViewAt(2)
+       try {
+           if (isShowLines) {
+               mFrame.removeViewAt(2)
+           }
+           isShowLines = true
+           mFrame.addView(line, 2)
        }
-       isShowLines = true
-       mFrame.addView(line, 2)
-       restartPreview()
+       catch (e : Exception){}
+       finally {}
+
    }
 
     //Создание сетки

@@ -58,7 +58,8 @@ class CameraPreview(
         if (mCameraActivity.mCameraType == CAMERA_TYPE.BACK)
             parameters?.focusMode = Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE
 
-		//Поворот View
+        //TODO parameters.colorEffect = Camera.Parameters.EFFECT_SEPIA
+        //Поворот View
         val display = (mCameraActivity.mContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
         if (display.rotation == Surface.ROTATION_0) {
             mCamera.setDisplayOrientation(90)
