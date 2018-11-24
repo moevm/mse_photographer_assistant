@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.leti.progin6304.cameraphotographerassistant
 
 
@@ -32,7 +34,7 @@ class CameraActivity(context: Context, frame : FrameLayout) {
     private val DELAY_FLASH   = 1000L        // в обычном состоянии и со вспышкой
 
     var mContext : Context = context          // MainActivity
-    private var mFrame : FrameLayout = frame  // frame для отображение вида с камеры
+    var mFrame : FrameLayout = frame  // frame для отображение вида с камеры
 
     var mCameraType : CAMERA_TYPE = CAMERA_TYPE.BACK   // Фронтальная или задняя камера
     private var mFlashType : FLASH = FLASH.FLASH_OFF   // Состояние всыпшки
@@ -61,8 +63,9 @@ class CameraActivity(context: Context, frame : FrameLayout) {
     // Инициализация камеры
     private fun initCamera(id : Int){
         mCamera = getCameraInstance(id)
-        mPreview = CameraPreview(this, mCamera!! )
+        mPreview = CameraPreview(this, mCamera!!)
         mFrame.addView(mPreview)
+        mCamera?.setFaceDetectionListener(MyFaceDetectionListener(mContext, mFrame, mCameraType))
     }
 
     // Получние Id камер
@@ -143,6 +146,9 @@ class CameraActivity(context: Context, frame : FrameLayout) {
 
     // Перезапуск preview после снимка
     private fun restartPreview(){
+        isShowLines = false
+
+        mCamera?.setFaceDetectionListener(MyFaceDetectionListener(mContext, mFrame, mCameraType))
         try {
             mCamera?.startPreview()
         } catch (e : Exception){
@@ -229,17 +235,19 @@ class CameraActivity(context: Context, frame : FrameLayout) {
        val line = Line(mContext, angle_1, angle_2,
                pref.getInt("isSwitchHorizLine", 0) == 1,
                 pref.getInt("isSwitchVertLine", 0) == 1)
-       
-       if (isShowLines) {
-           mFrame.removeViewAt(2)
+       try {
+           if (isShowLines) {
+               mFrame.removeViewAt(2)
+           }
+           isShowLines = true
+           mFrame.addView(line, 2)
        }
-       isShowLines = true
-       mFrame.addView(line, 2)
-       restartPreview()
+       catch (e : Exception){ isShowLines = false}
+
    }
 
     //Создание сетки
-    fun setGrid(grids : MutableMap<GRID_TYPE, Boolean>, color : Int){
+    fun setGrid(grids : MutableMap<GRID_TYPE, Boolean>, color : String){
         val grid = Grid(mContext, grids, color)
         mFrame.addView(grid, 1)
         restartPreview()

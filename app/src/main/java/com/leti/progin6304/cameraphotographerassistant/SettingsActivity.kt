@@ -6,39 +6,50 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
+import android.hardware.Camera
 import kotlinx.android.synthetic.main.activity_settings.*
+import java.util.*
 
 
 fun Boolean.toInt() = if (this) 1 else 0
 fun Int.toBoolean() = this != 0
 
+fun getRandomColor(): String {
+    val rnd = Random()
+    return String.format("#%06x", Color.argb(255, rnd.nextInt(256),
+            rnd.nextInt(256), rnd.nextInt(256)))
+}
+
+
 class SettingsActivity : AppCompatActivity() {
 
     private lateinit var pref : SharedPreferences
-    private lateinit var builder : AlertDialog.Builder
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
-        title = "Settings"
+        title = "Настройки"
 
         setSwitch()
         initSwitch()
         initColor()
+        initFilters()
     }
 
     private fun initColor(){
-        builder = AlertDialog.Builder(this)
+        var builder = AlertDialog.Builder(this)
         builder.setTitle("Выберите цвет линий сетки")
 
         val colors = arrayOf("Белый", "Серый", "Черный", "Произвольный")
         val editor = pref.edit()
         builder.setItems(colors) { _, which ->
             when (which) {
-                0 -> {editor.putInt("colorGrid", 0); editor.apply();}
-                1 -> {editor.putInt("colorGrid", 1); editor.apply();}
-                2 -> {editor.putInt("colorGrid", 2); editor.apply();}
-                3 -> {editor.putInt("colorGrid", 3); editor.apply();}
+                0 -> {editor.putString("colorGrid", "#FFFFFF"); editor.apply();}
+                1 -> {editor.putString("colorGrid", "#A9A9A9"); editor.apply();}
+                2 -> {editor.putString("colorGrid", "#000000"); editor.apply();}
+                3 -> {editor.putString("colorGrid", getRandomColor()); editor.apply();}
             }
         }
 
@@ -46,7 +57,26 @@ class SettingsActivity : AppCompatActivity() {
             val dialog = builder.create()
             dialog.show()
         }
+    }
+    private fun initFilters(){
+        var builder = AlertDialog.Builder(this)
+        builder.setTitle("Выберите фильтр")
 
+        val colors = arrayOf("Без фильтра", "Сепия", "Негатив", "Черно-белый")
+        val editor = pref.edit()
+        builder.setItems(colors) { _, which ->
+            when (which) {
+                0 -> {editor.putString("filter", Camera.Parameters.EFFECT_NONE); editor.apply();}
+                1 -> {editor.putString("filter", Camera.Parameters.EFFECT_SEPIA); editor.apply();}
+                2 -> {editor.putString("filter", Camera.Parameters.EFFECT_NEGATIVE); editor.apply();}
+                3 -> {editor.putString("filter", Camera.Parameters.EFFECT_MONO); editor.apply();}
+            }
+        }
+
+        changeFilter.setOnClickListener{
+            val dialog = builder.create()
+            dialog.show()
+        }
     }
 
     // Установка положений переключателей на старте
@@ -58,7 +88,7 @@ class SettingsActivity : AppCompatActivity() {
         switchGridCenter.isChecked = pref.getInt("isSwitchGridCenter", 0).toBoolean()
         switchHorizLine.isChecked = pref.getInt("isSwitchHorizLine", 0).toBoolean()
         switchVertLine.isChecked = pref.getInt("isSwitchVertLine", 0).toBoolean()
-
+        switchFace.isChecked = pref.getInt("isSwitchFace", 0).toBoolean()
     }
 
     // Инициализация обработки нажатия
@@ -80,6 +110,9 @@ class SettingsActivity : AppCompatActivity() {
         }
         switchVertLine.setOnClickListener{
             launchSwitchVertLine()
+        }
+        switchFace.setOnClickListener{
+            launchSwitchFace()
         }
     }
 
@@ -141,6 +174,10 @@ class SettingsActivity : AppCompatActivity() {
         updatePref()
     }
 
+    private fun launchSwitchFace(){
+        updatePref()
+    }
+
 
     // Обновление информации всех сеток
     private fun updatePref(){
@@ -151,6 +188,8 @@ class SettingsActivity : AppCompatActivity() {
         editor.putInt("isSwitchGridCenter", switchGridCenter.isChecked.toInt())
         editor.putInt("isSwitchHorizLine", switchHorizLine.isChecked.toInt())
         editor.putInt("isSwitchVertLine", switchVertLine.isChecked.toInt())
+        editor.putInt("isSwitchFace", switchFace.isChecked.toInt())
+
         editor.apply()
     }
 

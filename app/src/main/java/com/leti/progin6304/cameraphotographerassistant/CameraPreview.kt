@@ -22,6 +22,9 @@ class CameraPreview(
         setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS)
     }
 
+    private fun startFaceDetection() {
+        if (mCamera.parameters.maxNumDetectedFaces > 0) mCamera.startFaceDetection()
+    }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
         mCamera.apply {
@@ -34,6 +37,7 @@ class CameraPreview(
                 Log.d("TAGME", "Error setting camera preview: ${e.message}")
             }
         }
+        startFaceDetection()
     }
 
     // Получение информации со страницы настроек и инициализация сеток
@@ -42,12 +46,12 @@ class CameraPreview(
 
         // Создание словаря из типа сетки в отображение сетки
         val grids : MutableMap<GRID_TYPE, Boolean> = mutableMapOf()
-        grids.put(GRID_TYPE.GRID3X3   , pref.getInt("isSwitchGridRectangle3x3", 0) == 1)
-        grids.put(GRID_TYPE.GRIDFIB   , pref.getInt("isSwitchGridFib"         , 0) == 1)
-        grids.put(GRID_TYPE.GRIDSQUARE, pref.getInt("isSwitchGridSquare"      , 0) == 1)
-        grids.put(GRID_TYPE.GRIDCENTER, pref.getInt("isSwitchGridCenter"      , 0) == 1)
+        grids[GRID_TYPE.GRID3X3] = pref.getInt("isSwitchGridRectangle3x3", 0) == 1
+        grids[GRID_TYPE.GRIDFIB] = pref.getInt("isSwitchGridFib", 0) == 1
+        grids[GRID_TYPE.GRIDSQUARE] = pref.getInt("isSwitchGridSquare", 0) == 1
+        grids[GRID_TYPE.GRIDCENTER] = pref.getInt("isSwitchGridCenter", 0) == 1
 
-        mCameraActivity.setGrid(grids, pref.getInt("colorGrid", 0))
+        mCameraActivity.setGrid(grids, pref.getString("colorGrid", "#FFFFFF"))
 
     }
 
@@ -58,7 +62,10 @@ class CameraPreview(
         if (mCameraActivity.mCameraType == CAMERA_TYPE.BACK)
             parameters?.focusMode = Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE
 
-		//Поворот View
+        val pref = mCameraActivity.mContext.getSharedPreferences("MY_SETTINGS", Context.MODE_PRIVATE)
+        parameters.colorEffect = pref.getString("filter", Camera.Parameters.EFFECT_NONE)
+
+        //Поворот View
         val display = (mCameraActivity.mContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
         if (display.rotation == Surface.ROTATION_0) {
             mCamera.setDisplayOrientation(90)
@@ -108,6 +115,7 @@ class CameraPreview(
                 Log.d("TAGME", "Error starting camera preview: ${e.message}")
             }
         }
+        startFaceDetection()
     }
 }
 
