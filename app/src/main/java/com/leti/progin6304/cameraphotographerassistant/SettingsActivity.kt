@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
+import android.hardware.Camera
 import kotlinx.android.synthetic.main.activity_settings.*
 import java.util.*
 
@@ -24,7 +25,7 @@ fun getRandomColor(): String {
 class SettingsActivity : AppCompatActivity() {
 
     private lateinit var pref : SharedPreferences
-    private lateinit var builder : AlertDialog.Builder
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,10 +35,11 @@ class SettingsActivity : AppCompatActivity() {
         setSwitch()
         initSwitch()
         initColor()
+        initFilters()
     }
 
     private fun initColor(){
-        builder = AlertDialog.Builder(this)
+        var builder = AlertDialog.Builder(this)
         builder.setTitle("Выберите цвет линий сетки")
 
         val colors = arrayOf("Белый", "Серый", "Черный", "Произвольный")
@@ -55,7 +57,26 @@ class SettingsActivity : AppCompatActivity() {
             val dialog = builder.create()
             dialog.show()
         }
+    }
+    private fun initFilters(){
+        var builder = AlertDialog.Builder(this)
+        builder.setTitle("Выберите фильтр")
 
+        val colors = arrayOf("Без фильтра", "Сепия", "Негатив", "Черно-белый")
+        val editor = pref.edit()
+        builder.setItems(colors) { _, which ->
+            when (which) {
+                0 -> {editor.putString("filter", Camera.Parameters.EFFECT_NONE); editor.apply();}
+                1 -> {editor.putString("filter", Camera.Parameters.EFFECT_SEPIA); editor.apply();}
+                2 -> {editor.putString("filter", Camera.Parameters.EFFECT_NEGATIVE); editor.apply();}
+                3 -> {editor.putString("filter", Camera.Parameters.EFFECT_MONO); editor.apply();}
+            }
+        }
+
+        changeFilter.setOnClickListener{
+            val dialog = builder.create()
+            dialog.show()
+        }
     }
 
     // Установка положений переключателей на старте

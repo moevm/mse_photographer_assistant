@@ -58,7 +58,9 @@ class CameraPreview(
         if (mCameraActivity.mCameraType == CAMERA_TYPE.BACK)
             parameters?.focusMode = Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE
 
-        //TODO parameters.colorEffect = Camera.Parameters.EFFECT_SEPIA
+        val pref = mCameraActivity.mContext.getSharedPreferences("MY_SETTINGS", Context.MODE_PRIVATE)
+        parameters.colorEffect = pref.getString("filter", Camera.Parameters.EFFECT_NONE)
+
         //Поворот View
         val display = (mCameraActivity.mContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
         if (display.rotation == Surface.ROTATION_0) {
