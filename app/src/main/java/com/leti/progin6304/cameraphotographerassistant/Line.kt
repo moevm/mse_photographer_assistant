@@ -7,6 +7,7 @@ import android.graphics.Paint
 import android.graphics.Point
 import android.view.View
 import android.view.WindowManager
+import kotlin.math.abs
 
 class Line(context: Context, private var angleHorizLine : Double,
                              private var angleVertLines : Double,
@@ -35,11 +36,23 @@ class Line(context: Context, private var angleHorizLine : Double,
             angleHorizLine = angleVertLines
             angleVertLines = tmp
         }
+
+        val pi = Math.PI
         if (isShowHorizLine){
+            if (abs(angleHorizLine) <= pi / 18 ||
+                    (abs(angleHorizLine) <= pi * 19 / 18 && abs(angleHorizLine) >= pi * 17 / 18))
+                paint.color = Color.GREEN
+            else
+                paint.color = Color.WHITE
             val dh = Math.tan(angleHorizLine) * w / 2
             canvas.drawLine(0f, (h / 2 - dh).toFloat(), w.toFloat(), (h /2 + dh).toFloat(), paint)
         }
         if (isShowVertLine){
+            if ((abs(angleVertLines) >= pi * 4 / 9 && abs(angleVertLines) <= pi * 5 / 9) ||
+                    (abs(angleVertLines) <= pi * 14 / 9  && abs(angleVertLines) >= pi * 13 / 9))
+                paint.color = Color.GREEN
+            else
+                paint.color = Color.WHITE
             val dh = Math.tan(angleVertLines) * w / 2
             canvas.drawLine(0f, (h / 2 - dh).toFloat(), w.toFloat(), (h /2 + dh).toFloat(), paint)
         }
