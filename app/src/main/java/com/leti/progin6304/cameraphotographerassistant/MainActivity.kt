@@ -70,6 +70,12 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     override fun onPause() {
         super.onPause()
         mSensorManager!!.unregisterListener(this)
+        mCameraActivity?.stopCamera()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mCameraActivity?.stopCamera()
     }
 
 

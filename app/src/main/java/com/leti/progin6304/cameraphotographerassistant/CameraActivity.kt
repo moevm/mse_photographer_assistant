@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 package com.leti.progin6304.cameraphotographerassistant
 
 
@@ -243,7 +245,7 @@ class CameraActivity(context: Context, frame : FrameLayout) {
    }
 
     //Создание сетки
-    fun setGrid(grids : MutableMap<GRID_TYPE, Boolean>, color : Int){
+    fun setGrid(grids : MutableMap<GRID_TYPE, Boolean>, color : String){
         val grid = Grid(mContext, grids, color)
         mFrame.addView(grid, 1)
         restartPreview()

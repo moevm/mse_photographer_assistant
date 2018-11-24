@@ -6,11 +6,20 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.content.Intent
 import android.content.SharedPreferences
+import android.graphics.Color
 import kotlinx.android.synthetic.main.activity_settings.*
+import java.util.*
 
 
 fun Boolean.toInt() = if (this) 1 else 0
 fun Int.toBoolean() = this != 0
+
+fun getRandomColor(): String {
+    val rnd = Random()
+    return String.format("#%06x", Color.argb(255, rnd.nextInt(256),
+            rnd.nextInt(256), rnd.nextInt(256)))
+}
+
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -35,10 +44,10 @@ class SettingsActivity : AppCompatActivity() {
         val editor = pref.edit()
         builder.setItems(colors) { _, which ->
             when (which) {
-                0 -> {editor.putInt("colorGrid", 0); editor.apply();}
-                1 -> {editor.putInt("colorGrid", 1); editor.apply();}
-                2 -> {editor.putInt("colorGrid", 2); editor.apply();}
-                3 -> {editor.putInt("colorGrid", 3); editor.apply();}
+                0 -> {editor.putString("colorGrid", "#FFFFFF"); editor.apply();}
+                1 -> {editor.putString("colorGrid", "#A9A9A9"); editor.apply();}
+                2 -> {editor.putString("colorGrid", "#000000"); editor.apply();}
+                3 -> {editor.putString("colorGrid", getRandomColor()); editor.apply();}
             }
         }
 

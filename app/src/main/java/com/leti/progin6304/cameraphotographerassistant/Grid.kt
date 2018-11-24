@@ -8,12 +8,8 @@ import android.widget.Toast
 import java.util.*
 import kotlin.math.sqrt
 
-fun getRandomColor(): Int {
-    val rnd = Random()
-    return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256))
-}
 
-class Grid(context: Context, private val grids : MutableMap<GRID_TYPE, Boolean>, val color : Int) : View(context) {
+class Grid(context: Context, private val grids : MutableMap<GRID_TYPE, Boolean>, val color : String) : View(context) {
     override fun onDraw(canvas: Canvas) {
         val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val display = wm.defaultDisplay
@@ -25,14 +21,7 @@ class Grid(context: Context, private val grids : MutableMap<GRID_TYPE, Boolean>,
         val paint = Paint()
 
         // Выбор цвета
-        var colorString = "#FFFFFF"
-        when (color){
-            0 -> colorString = "#FFFFFF"
-            1 -> colorString = "#A9A9A9"
-            2 -> colorString = "#000000"
-            3 -> colorString = String.format("#%06x", getRandomColor())
-        }
-        paint.color = Color.parseColor(colorString)
+        paint.color = Color.parseColor(color)
         paint.strokeWidth = 10F
         paint.style = Paint.Style.STROKE
         paint.isAntiAlias = true
