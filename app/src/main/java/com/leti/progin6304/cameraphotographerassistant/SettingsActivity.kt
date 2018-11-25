@@ -46,18 +46,24 @@ class SettingsActivity : AppCompatActivity() {
         val editor = pref.edit()
         builder.setItems(colors) { _, which ->
             when (which) {
-                0 -> {editor.putString("colorGrid", "#FFFFFF"); editor.apply();}
-                1 -> {editor.putString("colorGrid", "#A9A9A9"); editor.apply();}
-                2 -> {editor.putString("colorGrid", "#000000"); editor.apply();}
-                3 -> {editor.putString("colorGrid", getRandomColor()); editor.apply();}
+                0 -> {editor.putString("colorGrid", "#FFFFFF"); editor.apply(); updateColor();}
+                1 -> {editor.putString("colorGrid", "#A9A9A9"); editor.apply(); updateColor();}
+                2 -> {editor.putString("colorGrid", "#000000"); editor.apply(); updateColor();}
+                3 -> {editor.putString("colorGrid", getRandomColor()); editor.apply(); updateColor();}
             }
         }
 
         changeColor.setOnClickListener{
             val dialog = builder.create()
             dialog.show()
+            updateColor()
         }
     }
+
+    private fun updateColor(){
+        colorGrid.setBackgroundColor(Color.parseColor(pref.getString("colorGrid", "#FFFFFF")))
+    }
+
     private fun initFilters(){
         var builder = AlertDialog.Builder(this)
         builder.setTitle("Выберите фильтр")
@@ -89,6 +95,7 @@ class SettingsActivity : AppCompatActivity() {
         switchHorizLine.isChecked = pref.getInt("isSwitchHorizLine", 0).toBoolean()
         switchVertLine.isChecked = pref.getInt("isSwitchVertLine", 0).toBoolean()
         switchFace.isChecked = pref.getInt("isSwitchFace", 0).toBoolean()
+        colorGrid.setBackgroundColor(Color.parseColor(pref.getString("colorGrid", "#FFFFFF")))
     }
 
     // Инициализация обработки нажатия

@@ -249,6 +249,13 @@
                 android:paddingLeft="8dp"
                 android:text="Изменить цвет сетки"
                 tools:ignore="NotSibling" />
+            <ImageView
+                android:id="@+id/colorGrid"
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:gravity="left" />
         </RelativeLayout>
 
         <RelativeLayout
