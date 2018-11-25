@@ -118,59 +118,31 @@ class SettingsActivity : AppCompatActivity() {
 
     // Обновление информации отображения сетки 3х3
     private fun launchSwitchGrid3x3(){
-        if (switchGridRectangle3x3.isChecked){
-            switchHorizLine.isChecked = false
-            switchVertLine.isChecked = false
-        }
         updatePref()
     }
 
     // Обновление информации отображения сетки Фибоначчи
     private fun launchSwitchGridFib(){
-        if (switchGridFib.isChecked){
-            switchHorizLine.isChecked = false
-            switchVertLine.isChecked = false
-        }
         updatePref()
     }
 
     // Обновление информации отображения сетки центра экрана
     private fun launchSwitchGridCenter(){
-        if (switchGridCenter.isChecked){
-            switchHorizLine.isChecked = false
-            switchVertLine.isChecked = false
-        }
         updatePref()
     }
 
     // Обновление информации отображения сетки 1/5 площади
     private fun launchSwitchGridSquare(){
-        if (switchGridSquare.isChecked){
-            switchHorizLine.isChecked = false
-            switchVertLine.isChecked = false
-        }
         updatePref()
     }
 
     // Обновление информации отображение линии горизонта
     private fun launchSwitchHorizLine(){
-        if (switchHorizLine.isChecked){
-            switchGridRectangle3x3.isChecked = false
-            switchGridFib.isChecked = false
-            switchGridCenter.isChecked = false
-            switchGridSquare.isChecked = false
-        }
         updatePref()
     }
 
     // Обновление информации отображение линии вертикали
     private fun launchSwitchVertLine(){
-        if (switchVertLine.isChecked){
-            switchGridRectangle3x3.isChecked = false
-            switchGridFib.isChecked = false
-            switchGridCenter.isChecked = false
-            switchGridSquare.isChecked = false
-        }
         updatePref()
     }
 
