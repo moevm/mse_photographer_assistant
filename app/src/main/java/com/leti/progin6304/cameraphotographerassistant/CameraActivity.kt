@@ -45,7 +45,9 @@ class CameraActivity(context: Context, frame : FrameLayout) {
     private var mPictureFile : File? = null   // Файл сохранения снимка
     
     private var isShowLines : Boolean = false  // Нарисованы ли линии горизонта в данный момент
-            
+
+    private lateinit var mFaceDetection : MyFaceDetectionListener
+
     init{
         setCamerasId()              // Получение Id фронтальной и задней камер
         initCamera(mCameraIdBack)   // Инициализация задней камеры
@@ -65,7 +67,8 @@ class CameraActivity(context: Context, frame : FrameLayout) {
         mCamera = getCameraInstance(id)
         mPreview = CameraPreview(this, mCamera!!)
         mFrame.addView(mPreview)
-        mCamera?.setFaceDetectionListener(MyFaceDetectionListener(mContext, mFrame, mCameraType))
+        mFaceDetection = MyFaceDetectionListener(mContext, mFrame, mCameraType)
+        mCamera?.setFaceDetectionListener(mFaceDetection)
     }
 
     // Получние Id камер
@@ -99,6 +102,8 @@ class CameraActivity(context: Context, frame : FrameLayout) {
         mFrame.removeAllViews()
         mFrame.addView(mPreview)
 
+        restartPreview()
+
     }
 
     // Переключение режима работы вспышки
@@ -130,6 +135,7 @@ class CameraActivity(context: Context, frame : FrameLayout) {
         }
         mPictureFile = null
 
+
         // Задержка в зависимости от состояния вспышки
         if (mFlashType == FLASH.FLASH_ON || mFlashType == FLASH.FLASH_AUTO)
             delayPreview(DELAY_PREVIEW + DELAY_FLASH)
@@ -147,14 +153,29 @@ class CameraActivity(context: Context, frame : FrameLayout) {
     // Перезапуск preview
     private fun restartPreview(){
         // Перезапуск линий горизонта и определения лица
+
+        try{
+            if (isShowLines) {
+                mFrame.removeViewAt(2)
+            }
+        }
+        catch (e : Exception){}
         isShowLines = false
-        mCamera?.setFaceDetectionListener(MyFaceDetectionListener(mContext, mFrame, mCameraType))
 
         try {
+            mCamera?.stopPreview()
             mCamera?.startPreview()
         } catch (e : Exception){
-            Toast.makeText(mContext, "Error start preview", Toast.LENGTH_SHORT).show()
+            Toast.makeText(mContext, "Error restart preview", Toast.LENGTH_SHORT).show()
         }
+
+        try {if (mCamera?.parameters?.maxNumDetectedFaces!! > 0)
+            mCamera?.stopFaceDetection()
+            mFaceDetection = MyFaceDetectionListener(mContext, mFrame, mCameraType)
+            mCamera?.setFaceDetectionListener(mFaceDetection)
+            mCamera?.startFaceDetection()
+        }
+        catch (e : Exception){}
     }
 
     // Остановка текущей камеры

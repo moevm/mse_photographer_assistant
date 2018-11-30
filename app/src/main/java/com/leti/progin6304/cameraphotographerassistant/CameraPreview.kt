@@ -23,7 +23,7 @@ class CameraPreview(
     }
 
     private fun startFaceDetection() {
-        if (mCamera.parameters.maxNumDetectedFaces > 0) mCamera.startFaceDetection()
+        try {if (mCamera.parameters.maxNumDetectedFaces > 0) mCamera.stopFaceDetection(); mCamera.startFaceDetection()} catch (e : Exception){}
     }
 
     override fun surfaceCreated(holder: SurfaceHolder) {
