@@ -24,17 +24,17 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
-
+// Класс, описывающий работу камеру и предоставлюящий упрощенный интерфейс к нему
 class CameraActivity(context: Context, frame : FrameLayout) {
 
     private var mCamera: Camera? = null        // объект Camera
-    private lateinit var mPreview: SurfaceView // preview
+    private lateinit var mPreview: SurfaceView // preview, на котором происходит отображение
 
     private val DELAY_PREVIEW = 500L         // Задержка перезапуска Preview
     private val DELAY_FLASH   = 1000L        // в обычном состоянии и со вспышкой
 
     var mContext : Context = context          // MainActivity
-    var mFrame : FrameLayout = frame  // frame для отображение вида с камеры
+    var mFrame : FrameLayout = frame          // Frame для отображение вида с камеры
 
     var mCameraType : CAMERA_TYPE = CAMERA_TYPE.BACK   // Фронтальная или задняя камера
     private var mFlashType : FLASH = FLASH.FLASH_OFF   // Состояние всыпшки
@@ -44,7 +44,7 @@ class CameraActivity(context: Context, frame : FrameLayout) {
 
     private var mPictureFile : File? = null   // Файл сохранения снимка
     
-    private var isShowLines : Boolean = false
+    private var isShowLines : Boolean = false  // Нарисованы ли линии горизонта в данный момент
             
     init{
         setCamerasId()              // Получение Id фронтальной и задней камер
@@ -144,11 +144,12 @@ class CameraActivity(context: Context, frame : FrameLayout) {
         }, DELAY)
     }
 
-    // Перезапуск preview после снимка
+    // Перезапуск preview
     private fun restartPreview(){
+        // Перезапуск линий горизонта и определения лица
         isShowLines = false
-
         mCamera?.setFaceDetectionListener(MyFaceDetectionListener(mContext, mFrame, mCameraType))
+
         try {
             mCamera?.startPreview()
         } catch (e : Exception){
@@ -230,15 +231,20 @@ class CameraActivity(context: Context, frame : FrameLayout) {
                 "IMG_" + timeStamp + ".jpg")
     }
 
+    // Отрисовка линий горизонтали
    fun drawLines(angle_1: Double, angle_2 : Double){
        val pref = mContext.getSharedPreferences("MY_SETTINGS", Context.MODE_PRIVATE)
        val line = Line(mContext, angle_1, angle_2,
                pref.getInt("isSwitchHorizLine", 0) == 1,
                 pref.getInt("isSwitchVertLine", 0) == 1)
+
+       // Удаление линий, если они были уже нарисованы
        try {
            if (isShowLines) {
                mFrame.removeViewAt(2)
            }
+
+           // Отрисовка
            isShowLines = true
            mFrame.addView(line, 2)
        }
@@ -246,7 +252,7 @@ class CameraActivity(context: Context, frame : FrameLayout) {
 
    }
 
-    //Создание сетки
+    // Создание сетки
     fun setGrid(grids : MutableMap<GRID_TYPE, Boolean>, color : String){
         val grid = Grid(mContext, grids, color)
         mFrame.addView(grid, 1)

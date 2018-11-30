@@ -9,12 +9,16 @@ import android.view.View
 import android.view.WindowManager
 import kotlin.math.abs
 
+// Клас, описывающий отрисовку линий горизонта
 class Line(context: Context, private var angleHorizLine : Double,
                              private var angleVertLines : Double,
                              private val isShowHorizLine : Boolean,
                              private val isShowVertLine : Boolean ) : View(context) {
 
+    // Переопрделенный метод Draw
     override fun onDraw(canvas: Canvas) {
+
+        // Получение размеров экрана
         val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val display = wm.defaultDisplay
         val size = Point()
@@ -22,12 +26,14 @@ class Line(context: Context, private var angleHorizLine : Double,
 
         val paint = Paint()
 
+        // Установка параметров линий
         paint.color = Color.parseColor("#FFFFFF")
         paint.strokeWidth = 8F
         paint.style = Paint.Style.STROKE
         paint.isAntiAlias = true
         paint.isDither = true
 
+        val pi = Math.PI
         val w : Double = size.x.toDouble()
         val h : Double = size.y.toDouble()
 
@@ -37,8 +43,10 @@ class Line(context: Context, private var angleHorizLine : Double,
             angleVertLines = tmp
         }
 
-        val pi = Math.PI
+        // Отрисовка горизонтальной линий
         if (isShowHorizLine){
+
+            // Если ровно, то цвет - зеленый
             if (abs(angleHorizLine) <= pi / 18 ||
                     (abs(angleHorizLine) <= pi * 19 / 18 && abs(angleHorizLine) >= pi * 17 / 18))
                 paint.color = Color.GREEN
@@ -47,7 +55,10 @@ class Line(context: Context, private var angleHorizLine : Double,
             val dh = Math.tan(angleHorizLine) * w / 2
             canvas.drawLine(0f, (h / 2 - dh).toFloat(), w.toFloat(), (h /2 + dh).toFloat(), paint)
         }
+
+        // Отрисовка вертикальной линий
         if (isShowVertLine){
+            // Если ровно, то цвет - зеленый
             if ((abs(angleVertLines) >= pi * 4 / 9 && abs(angleVertLines) <= pi * 5 / 9) ||
                     (abs(angleVertLines) <= pi * 14 / 9  && abs(angleVertLines) >= pi * 13 / 9))
                 paint.color = Color.GREEN

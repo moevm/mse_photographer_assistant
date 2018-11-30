@@ -1,6 +1,5 @@
 ﻿package com.leti.progin6304.cameraphotographerassistant
 
-
 import android.Manifest
 import android.content.Context
 import android.content.Intent
