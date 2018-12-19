@@ -8,9 +8,13 @@ import android.widget.Toast
 import java.util.*
 import kotlin.math.sqrt
 
-
+// Клас, описывающий отрисовку сетки
 class Grid(context: Context, private val grids : MutableMap<GRID_TYPE, Boolean>, val color : String) : View(context) {
+
+    // Переопрделенный метод Draw
     override fun onDraw(canvas: Canvas) {
+
+        // Получение размеров экрана
         val wm = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
         val display = wm.defaultDisplay
         val size = Point()
@@ -20,13 +24,12 @@ class Grid(context: Context, private val grids : MutableMap<GRID_TYPE, Boolean>,
 
         val paint = Paint()
 
-        // Выбор цвета
+        // Задание параметров сетки
         paint.color = Color.parseColor(color)
         paint.strokeWidth = 10F
         paint.style = Paint.Style.STROKE
         paint.isAntiAlias = true
         paint.isDither = true
-        //paint.setARGB(255, 255, 0, 0)
 
         for ((grid, isDraw) in grids){
             if (grid == GRID_TYPE.GRID3X3 && isDraw){   // Отрисовка сетки 3х3
