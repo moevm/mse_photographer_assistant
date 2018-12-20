@@ -107,4 +107,14 @@ class SettingsActivityTest {
     fun isClickedFace() {
         onView(withId(R.id.textForSwitchFace)).check(matches(withText("Определение лица")));
     }
+    /*Проверка на отображение изменения фильтров*/
+    @Test
+    fun isVisibleFilter() {
+        Espresso.onView(ViewMatchers.withId(R.id.changeFilter)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    }
+
+    @Test
+    fun isClickedFilter() {
+        onView(withId(R.id.changeFilter)).check(matches(withText("Изменить фильтр")));
+    }
 }

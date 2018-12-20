@@ -7,7 +7,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <FrameLayout
         android:id="@+id/camera_preview"
         android:layout_width="match_parent"
@@ -63,9 +62,5 @@
             android:layout_height="60dp"
             android:layout_weight="1"
             app:srcCompat="@mipmap/ic_settings" />
-
-
     </LinearLayout>
-
-
 </RelativeLayout>

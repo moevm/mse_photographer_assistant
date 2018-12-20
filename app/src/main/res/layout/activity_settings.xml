@@ -277,12 +277,6 @@
                 android:text="Изменить фильтр"
                 tools:ignore="NotSibling" />
         </RelativeLayout>
-
-
-
-
-
     </LinearLayout>
     </ScrollView>
-
 </android.support.constraint.ConstraintLayout>
