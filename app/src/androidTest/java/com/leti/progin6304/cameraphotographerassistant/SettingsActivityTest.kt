@@ -22,12 +22,6 @@ class SettingsActivityTest {
         Espresso.onView(ViewMatchers.withId(R.id.settings_scrollview)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
     }
 
-    /*Проверка на отображение текста*/
-    @Test
-    fun isVisibleTextDeveloped() {
-        onView(withId(R.id.test_textview)).check(matches(withText("Developed by @kovinevmv, Jools")));
-    }
-
     /*Проверка на отображение сетки 3*3*/
     @Test
     fun isSwitchGridRectangle3x3Clicked() {
@@ -102,5 +96,15 @@ class SettingsActivityTest {
     @Test
     fun isClickedChangeColor() {
         onView(withId(R.id.changeColor)).check(matches(withText("Изменить цвет сетки")));
+    }
+    /*Проверка на отображение распознавания лица*/
+    @Test
+    fun isVisibleFace() {
+        Espresso.onView(ViewMatchers.withId(R.id.textForSwitchFace)).check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
+    }
+
+    @Test
+    fun isClickedFace() {
+        onView(withId(R.id.textForSwitchFace)).check(matches(withText("Определение лица")));
     }
 }
