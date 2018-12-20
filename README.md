@@ -6,6 +6,9 @@ https://docs.google.com/presentation/d/1yY1mCA1XEdwlaFJfQpmgzMiUCnLKO88BO7G__Eb3
 Презентация второй итерации:
 https://docs.google.com/presentation/d/1mM8gtxkjw4rbS6Y6F9gFeJ8sslrb1wTdH4F41x6eFOA/edit?usp=sharing
 
+Презентация третьей итерации:
+https://docs.google.com/presentation/d/1gyOsJBB-ZxNqzvvtY7OeixtDgNUTa5pSzzaLDhVTLNo/edit?usp=sharing
+
 
 ## Инструкция по развертыванию:
 * Установить Android Studio: https://developer.android.com/studio/  
