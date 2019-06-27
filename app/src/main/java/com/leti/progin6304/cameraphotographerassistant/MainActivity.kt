@@ -64,6 +64,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     override fun onResume() {
         super.onResume()
         mSensorManager!!.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL)
+        mCameraActivity?.startCamera(mCameraType)
     }
 
     override fun onPause() {
