@@ -14,6 +14,8 @@ import android.os.Handler
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
+import android.view.View.*
 import android.view.WindowManager
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -138,7 +140,14 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private fun initButtons(){
         settings.setOnClickListener { launchSettings() }
         shutter.setOnClickListener{ launchShutter() }
-        switchCamera.setOnClickListener{ changeCamera()}
+        switchCamera.setOnClickListener{
+            changeCamera()
+            Log.d("CAAAAAAT", mCameraType.toString())
+            if (mCameraType == CAMERA_TYPE.FRONT) {
+                flash.visibility = GONE
+            }
+            else flash.visibility = VISIBLE
+        }
         flash.setOnClickListener{ turnFlash()}
     }
 
