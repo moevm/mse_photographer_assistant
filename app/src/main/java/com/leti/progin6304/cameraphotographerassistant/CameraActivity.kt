@@ -86,16 +86,19 @@ class CameraActivity(context: Context, frame : FrameLayout) {
 
     // Переключение фронтальной и задней камеры
     fun changeCamera(cameraId : CAMERA_TYPE){
-        mCameraType = cameraId
-        val newId : Int = when(mCameraType){
-            CAMERA_TYPE.BACK -> mCameraIdBack
-            CAMERA_TYPE.FRONT -> mCameraIdFront
-        }
-
         // Остановка текущей камеры
         stopCamera()
 
         // Создание новой камеры
+        startCamera(cameraId)
+    }
+
+    // Создание новой камеры
+    fun startCamera (mCameraType : CAMERA_TYPE) {
+        val newId : Int = when(mCameraType){
+            CAMERA_TYPE.BACK -> mCameraIdBack
+            CAMERA_TYPE.FRONT -> mCameraIdFront
+        }
         mCamera = getCameraInstance(newId)
         mPreview = CameraPreview(this, mCamera!!)
 
@@ -103,7 +106,6 @@ class CameraActivity(context: Context, frame : FrameLayout) {
         mFrame.addView(mPreview)
 
         restartPreview()
-
     }
 
     // Переключение режима работы вспышки
