@@ -10,13 +10,13 @@ import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Environment
-import android.os.Handler
 import android.provider.MediaStore
 import android.provider.MediaStore.Images
 import android.util.Log
 import android.view.SurfaceView
 import android.widget.FrameLayout
 import android.widget.Toast
+import kotlinx.coroutines.*
 import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
@@ -29,9 +29,6 @@ class CameraActivity(context: Context, frame : FrameLayout) {
 
     private var mCamera: Camera? = null        // объект Camera
     private lateinit var mPreview: SurfaceView // preview, на котором происходит отображение
-
-    private val DELAY_PREVIEW = 500L         // Задержка перезапуска Preview
-    private val DELAY_FLASH   = 1000L        // в обычном состоянии и со вспышкой
 
     var mContext : Context = context          // MainActivity
     var mFrame : FrameLayout = frame          // Frame для отображение вида с камеры
@@ -139,17 +136,9 @@ class CameraActivity(context: Context, frame : FrameLayout) {
 
 
         // Задержка в зависимости от состояния вспышки
-        if (mFlashType == FLASH.FLASH_ON || mFlashType == FLASH.FLASH_AUTO)
-            delayPreview(DELAY_PREVIEW + DELAY_FLASH)
-        else
-            delayPreview(DELAY_PREVIEW)
-    }
-
-    // Функция задержки и рестарта Preview
-    private fun delayPreview(DELAY : Long){
-        Handler().postDelayed({
+        GlobalScope.launch(Dispatchers.IO) {
             restartPreview()
-        }, DELAY)
+        }
     }
 
     // Перезапуск preview
@@ -217,13 +206,6 @@ class CameraActivity(context: Context, frame : FrameLayout) {
 			// Запись данных в файл
             Toast.makeText(mContext, "Success", Toast.LENGTH_SHORT).show()
             val fos = FileOutputStream(mPictureFile)
-            // TODO rotation problem
-            //val display = (mContext.getSystemService(Context.WINDOW_SERVICE) as WindowManager).defaultDisplay
-            //var angle = 0.0F
-            //val matrix = Matrix()
-            //matrix.postRotate(angle)
-            //val bitmap = BitmapFactory.decodeByteArray(data, 0, data.size)
-            //Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true).compress(Bitmap.CompressFormat.JPEG, 100, fos)
 
             fos.write(data)
             fos.close()
