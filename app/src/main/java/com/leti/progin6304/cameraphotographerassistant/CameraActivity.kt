@@ -134,8 +134,6 @@ class CameraActivity(context: Context, frame : FrameLayout) {
         }
         mPictureFile = null
 
-
-        // Задержка в зависимости от состояния вспышки
         GlobalScope.launch(Dispatchers.IO) {
             restartPreview()
         }
