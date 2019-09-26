@@ -47,7 +47,10 @@
             android:id="@+id/todo"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            app:srcCompat="@mipmap/ic_gallery"
+            android:padding="5dp"
+            android:tint="#696969"/>
 
         <ImageView
             android:id="@+id/shutter"

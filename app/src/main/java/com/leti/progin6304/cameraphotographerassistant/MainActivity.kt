@@ -8,6 +8,7 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.ActivityCompat
@@ -46,6 +47,13 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
                     initCamera()
                     initSensors()
                 }
+            }
+        }
+
+        handlePermission(Manifest.permission.READ_EXTERNAL_STORAGE){
+            todo.setOnClickListener {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse( "content://media/internal/images/media"))
+                startActivity(intent)
             }
         }
     }
