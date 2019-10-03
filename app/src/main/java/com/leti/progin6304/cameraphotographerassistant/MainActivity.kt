@@ -19,7 +19,6 @@ import android.view.View.*
 import android.view.WindowManager
 import kotlinx.android.synthetic.main.activity_main.*
 
-
 class MainActivity : AppCompatActivity(), SensorEventListener {
     private var mCameraActivity : CameraActivity? = null     // Камера
     private var mFlash : FLASH = FLASH.FLASH_OFF             // Текущее состояние вспышки
@@ -74,7 +73,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     override fun onResume() {
         super.onResume()
         mSensorManager!!.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL)
-        mCameraActivity?.startCamera(mCameraType)
+        mCameraActivity?.startCamera(mCameraType, mFlash)
     }
 
     override fun onPause() {
@@ -142,7 +141,6 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
         shutter.setOnClickListener{ launchShutter() }
         switchCamera.setOnClickListener{
             changeCamera()
-            Log.d("CAAAAAAT", mCameraType.toString())
             if (mCameraType == CAMERA_TYPE.FRONT) {
                 flash.visibility = GONE
             }
@@ -157,7 +155,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             CAMERA_TYPE.FRONT -> CAMERA_TYPE.BACK
             CAMERA_TYPE.BACK -> CAMERA_TYPE.FRONT
         }
-        mCameraActivity?.changeCamera(mCameraType)
+        mCameraActivity?.changeCamera(mCameraType, mFlash)
     }
 
 

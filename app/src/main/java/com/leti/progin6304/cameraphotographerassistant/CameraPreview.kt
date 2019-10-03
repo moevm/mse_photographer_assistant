@@ -13,7 +13,8 @@ import java.io.IOException
 
 class CameraPreview(
         private var mCameraActivity: CameraActivity,
-        private var mCamera: Camera
+        private var mCamera: Camera,
+        private var flash: FLASH? = null
 ) : SurfaceView(mCameraActivity.mContext), SurfaceHolder.Callback {
 
 
@@ -86,6 +87,15 @@ class CameraPreview(
 
         // Установка найденных размеров
         parameters.setPictureSize(size.width, size.height)
+
+        if (flash != null) {
+            when(flash){
+                FLASH.FLASH_ON -> parameters.flashMode = Camera.Parameters.FLASH_MODE_ON
+                FLASH.FLASH_OFF -> parameters.flashMode = Camera.Parameters.FLASH_MODE_OFF
+                FLASH.FLASH_AUTO -> parameters.flashMode = Camera.Parameters.FLASH_MODE_AUTO
+            }
+        }
+
         try {
             mCamera.parameters = parameters          //Установка новых параметров
         } catch (e :Exception){
