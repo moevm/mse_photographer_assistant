@@ -80,24 +80,24 @@ class CameraActivity(context: Context, frame : FrameLayout) {
                 mCameraIdBack = i
         }
     }
-
+    
     // Переключение фронтальной и задней камеры
-    fun changeCamera(cameraId : CAMERA_TYPE){
+    fun changeCamera(cameraId : CAMERA_TYPE, mFlash : FLASH){
         // Остановка текущей камеры
         stopCamera()
 
         // Создание новой камеры
-        startCamera(cameraId)
+        startCamera(cameraId, mFlash)
     }
 
     // Создание новой камеры
-    fun startCamera (mCameraType : CAMERA_TYPE) {
+    fun startCamera (mCameraType : CAMERA_TYPE, mFlash: FLASH) {
         val newId : Int = when(mCameraType){
             CAMERA_TYPE.BACK -> mCameraIdBack
             CAMERA_TYPE.FRONT -> mCameraIdFront
         }
         mCamera = getCameraInstance(newId)
-        mPreview = CameraPreview(this, mCamera!!)
+        mPreview = CameraPreview(this, mCamera!!, mFlash)
 
         mFrame.removeAllViews()
         mFrame.addView(mPreview)

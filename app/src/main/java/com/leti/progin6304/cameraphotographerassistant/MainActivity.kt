@@ -14,9 +14,10 @@ import android.os.Handler
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
+import android.view.View.*
 import android.view.WindowManager
 import kotlinx.android.synthetic.main.activity_main.*
-
 
 class MainActivity : AppCompatActivity(), SensorEventListener {
     private var mCameraActivity : CameraActivity? = null     // Камера
@@ -72,7 +73,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     override fun onResume() {
         super.onResume()
         mSensorManager!!.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL)
-        mCameraActivity?.startCamera(mCameraType)
+        mCameraActivity?.startCamera(mCameraType, mFlash)
     }
 
     override fun onPause() {
@@ -138,7 +139,13 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
     private fun initButtons(){
         settings.setOnClickListener { launchSettings() }
         shutter.setOnClickListener{ launchShutter() }
-        switchCamera.setOnClickListener{ changeCamera()}
+        switchCamera.setOnClickListener{
+            changeCamera()
+            if (mCameraType == CAMERA_TYPE.FRONT) {
+                flash.visibility = GONE
+            }
+            else flash.visibility = VISIBLE
+        }
         flash.setOnClickListener{ turnFlash()}
     }
 
@@ -148,7 +155,7 @@ class MainActivity : AppCompatActivity(), SensorEventListener {
             CAMERA_TYPE.FRONT -> CAMERA_TYPE.BACK
             CAMERA_TYPE.BACK -> CAMERA_TYPE.FRONT
         }
-        mCameraActivity?.changeCamera(mCameraType)
+        mCameraActivity?.changeCamera(mCameraType, mFlash)
     }
 
 
