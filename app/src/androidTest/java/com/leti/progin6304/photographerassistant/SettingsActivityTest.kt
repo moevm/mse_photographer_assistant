@@ -1,4 +1,4 @@
-package com.leti.progin6304.cameraphotographerassistant
+package com.leti.progin6304.photographerassistant
 
 import android.support.test.espresso.Espresso
 import android.support.test.espresso.Espresso.onView
