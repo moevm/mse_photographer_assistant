@@ -1,11 +1,9 @@
-package com.leti.progin6304.cameraphotographerassistant
+package com.leti.progin6304.photographerassistant
 
 import android.content.Context
 import android.graphics.*
 import android.view.View
 import android.view.WindowManager
-import android.widget.Toast
-import java.util.*
 import kotlin.math.sqrt
 
 // Клас, описывающий отрисовку сетки

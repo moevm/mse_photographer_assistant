@@ -1,4 +1,4 @@
-package com.leti.progin6304.cameraphotographerassistant
+package com.leti.progin6304.photographerassistant
 
 enum class FLASH{
     FLASH_ON, FLASH_AUTO, FLASH_OFF
