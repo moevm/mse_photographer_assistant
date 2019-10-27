@@ -1,6 +1,5 @@
-package com.leti.progin6304.cameraphotographerassistant
+package com.leti.progin6304.photographerassistant
 
-import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.assertion.ViewAssertions.matches
@@ -11,7 +10,6 @@ import android.support.test.runner.AndroidJUnit4
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import org.junit.Assert.*
 import org.junit.Rule
 
 /**
